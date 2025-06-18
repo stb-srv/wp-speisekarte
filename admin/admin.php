@@ -55,28 +55,8 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 ?>
 <div class="wrap">
     <h1>Speisekarte</h1>
-    <h2>Kategorien</h2>
-    <form method="post" style="margin-bottom:2em;" id="kat_form">
-        <input type="hidden" name="kat_id" value="">
-        <input type="text" name="kat_name" placeholder="Neue Kategorie" required>
-        <button class="button button-primary" name="kat_save">Speichern</button>
-    </form>
-    <table class="widefat">
-        <thead><tr><th>Name</th><th>Aktion</th></tr></thead>
-        <tbody>
-        <?php foreach($kats as $k): ?>
-            <tr data-id="<?php echo $k->id; ?>" data-name="<?php echo esc_attr($k->name); ?>">
-                <td><?php echo esc_html($k->name); ?></td>
-                <td>
-                    <a href="#" class="kat_edit">Bearbeiten</a> |
-                    <a href="?page=speisekarte&kat_del=<?php echo $k->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-    <h2>Speisen</h2>
-    <form method="post" style="margin-bottom:2em;" id="speise_form">
+    <h2>Speise erstellen/bearbeiten</h2>
+    <form method="post" id="speise_form">
         <input type="hidden" name="speise_id" value="">
         <select name="kategorie_id" required>
             <option value="">Kategorie wählen</option>
@@ -100,6 +80,26 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <span class="bild_preview"></span>
         <button class="button button-primary" name="speise_save">Speichern</button>
     </form>
+    <h2>Kategorien</h2>
+    <form method="post" style="margin-bottom:2em;" id="kat_form">
+        <input type="hidden" name="kat_id" value="">
+        <input type="text" name="kat_name" placeholder="Neue Kategorie" required>
+        <button class="button button-primary" name="kat_save">Speichern</button>
+    </form>
+    <table class="widefat">
+        <thead><tr><th>Name</th><th>Aktion</th></tr></thead>
+        <tbody>
+        <?php foreach($kats as $k): ?>
+            <tr data-id="<?php echo $k->id; ?>" data-name="<?php echo esc_attr($k->name); ?>">
+                <td><?php echo esc_html($k->name); ?></td>
+                <td>
+                    <a href="#" class="kat_edit">Bearbeiten</a> |
+                    <a href="?page=speisekarte&kat_del=<?php echo $k->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
     <h3>Speisen-Liste</h3>
     <div class="speisen-filter">
         <select id="speisen_kat_filter">
