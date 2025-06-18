@@ -1,4 +1,28 @@
 jQuery(function($){
+    $('.kat_edit').on('click', function(e){
+        e.preventDefault();
+        var row = $(this).closest('tr');
+        $('#kat_form [name="kat_id"]').val(row.data('id'));
+        $('#kat_form [name="kat_name"]').val(row.data('name'));
+    });
+
+    $('.speise_edit').on('click', function(e){
+        e.preventDefault();
+        var li = $(this).closest('li');
+        $('#speise_form [name="speise_id"]').val(li.data('id'));
+        $('#speise_form [name="kategorie_id"]').val(li.data('kategorie'));
+        $('#speise_form [name="nr"]').val(li.data('nr'));
+        $('#speise_form [name="name"]').val(li.data('name'));
+        $('#speise_form [name="beschreibung"]').val(li.data('beschreibung'));
+        $('#speise_form [name="inhaltsstoffe"]').val(li.data('inhaltsstoffe'));
+        $('#speise_form .bild_id').val(li.data('bild'));
+        var img = li.find('img').first();
+        if(img.length){
+            $('#speise_form .bild_preview').html('<img src="'+img.attr('src')+'" style="height:32px;">');
+        } else {
+            $('#speise_form .bild_preview').empty();
+        }
+    });
     $('.bild_upload').on('click', function(e){
         e.preventDefault();
         var button = $(this);
