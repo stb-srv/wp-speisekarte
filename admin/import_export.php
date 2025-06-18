@@ -2,17 +2,32 @@
 if (!defined('ABSPATH')) exit;
 
 global $wpdb;
-$table_kat = $wpdb->prefix . 'speisekarte_kategorien';
+$table_kat    = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
 
-    $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
-    foreach ($kats as &$kat) {
-        $kat['speisen'] = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
-    }
+// Export CSV
+if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="speisekarte_export.csv"');
 
-    header('Content-Type: application/json');
-    header('Content-Disposition: attachment; filename="speisekarte_export.json"');
-    echo $json;
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['Kategorie', 'Nr', 'Name', 'Beschreibung', 'Inhaltsstoffe', 'BildID'], ';');
+
+    $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
+    foreach ($kats as $kat) {
+        $speisen = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
+        foreach ($speisen as $sp) {
+            fputcsv($output, [
+                $kat['name'],
+                $sp['nr'],
+                $sp['name'],
+                $sp['beschreibung'],
+                $sp['inhaltsstoffe'],
+                $sp['bild_id'],
+            ], ';');
+        }
+    }
+    fclose($output);
     exit;
 }
 
@@ -21,19 +36,19 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
     if (!empty($_FILES['import_file']['tmp_name'])) {
         $data = json_decode(file_get_contents($_FILES['import_file']['tmp_name']), true);
         if (is_array($data)) {
-
+            foreach ($data as $k_index => $kat) {
                 $wpdb->insert($table_kat, ['name' => $kat['name'], 'sort' => $k_index]);
                 $kat_id = $wpdb->insert_id;
                 if (!empty($kat['speisen']) && is_array($kat['speisen'])) {
                     foreach ($kat['speisen'] as $s_index => $sp) {
                         $wpdb->insert($table_speise, [
-                            'nr' => $sp['nr'],
-                            'name' => $sp['name'],
+                            'nr'           => $sp['nr'],
+                            'name'         => $sp['name'],
                             'beschreibung' => $sp['beschreibung'],
-                            'inhaltsstoffe' => $sp['inhaltsstoffe'],
-                            'bild_id' => $sp['bild_id'],
+                            'inhaltsstoffe'=> $sp['inhaltsstoffe'],
+                            'bild_id'      => $sp['bild_id'],
                             'kategorie_id' => $kat_id,
-                            'sort' => $s_index,
+                            'sort'         => $s_index,
                         ]);
                     }
                 }
