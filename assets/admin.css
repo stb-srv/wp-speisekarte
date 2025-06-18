@@ -3,3 +3,5 @@
 .bild_preview img { display:inline; margin-left:5px; }
 .speisen-filter { margin-bottom:1em; }
 .speisen-filter select, .speisen-filter input { margin-right:10px; }
+.inh-multiselect { vertical-align:top; margin-right:10px; }
+
