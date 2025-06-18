@@ -6,6 +6,14 @@ jQuery(function($){
         $('#kat_form [name="kat_name"]').val(row.data('name'));
     });
 
+    $('.inh_edit').on('click', function(e){
+        e.preventDefault();
+        var row = $(this).closest('tr');
+        $('#inh_form [name="inh_id"]').val(row.data('id'));
+        $('#inh_form [name="code"]').val(row.data('code'));
+        $('#inh_form [name="name"]').val(row.data('name'));
+    });
+
     $('.speise_edit').on('click', function(e){
         e.preventDefault();
         var li = $(this).closest('li');
@@ -49,4 +57,33 @@ jQuery(function($){
             });
         }
     });
+
+    function applySpeisenFilter(){
+        var kat = $('#speisen_kat_filter').val();
+        var query = $('#speisen_search').val().toLowerCase();
+        $('.speisen-kat-block').each(function(){
+            var block = $(this);
+            var katId = block.data('kat').toString();
+            var showKat = !kat || katId === kat;
+            var anyVisible = false;
+            block.find('li.speise-item').each(function(){
+                var li = $(this);
+                var text = (
+                    li.data('nr') + ' ' +
+                    li.data('name') + ' ' +
+                    li.data('beschreibung') + ' ' +
+                    li.data('inhaltsstoffe')
+                ).toLowerCase();
+                var match = !query || text.indexOf(query) !== -1;
+                var show = showKat && match;
+                li.toggle(show);
+                if(show) anyVisible = true;
+            });
+            block.toggle(anyVisible);
+        });
+    }
+
+    $('#speisen_kat_filter').on('change', applySpeisenFilter);
+    $('#speisen_search').on('keyup change', applySpeisenFilter);
+    applySpeisenFilter();
 });
