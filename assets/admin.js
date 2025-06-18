@@ -14,6 +14,50 @@ jQuery(function($){
         $('#inh_form [name="name"]').val(row.data('name'));
     });
 
+    var allInhaltsstoffe = [];
+    $('#inh_dropdown option').each(function(){
+        var val = $(this).val();
+        var text = $(this).text();
+        if(val) allInhaltsstoffe.push({value: val, text: text});
+    });
+
+    function refreshDropdown(filter){
+        var selected = $('.inh-selected .inh-tag').map(function(){ return $(this).data('value'); }).get();
+        var options = '<option value="">Inhaltsstoff wählen</option>';
+        allInhaltsstoffe.forEach(function(o){
+            if(selected.indexOf(o.value) === -1 && (!filter || o.text.toLowerCase().indexOf(filter) !== -1)){
+                options += '<option value="'+o.value+'">'+o.text+'</option>';
+            }
+        });
+        $('#inh_dropdown').html(options);
+    }
+
+    function addTag(val, text){
+        var tag = $('<span class="inh-tag" data-value="'+val+'" data-text="'+text+'">'+text+' <a href="#" class="inh-remove">&times;</a><input type="hidden" name="inhaltsstoffe[]" value="'+val+'"></span>');
+        $('.inh-selected').append(tag);
+    }
+
+    $(document).on('click', '.inh-remove', function(e){
+        e.preventDefault();
+        $(this).parent().remove();
+        refreshDropdown($('#inh_filter').val().toLowerCase());
+    });
+
+    $('#inh_dropdown').on('change', function(){
+        var val = $(this).val();
+        if(!val) return;
+        var text = $(this).find('option:selected').text();
+        addTag(val, text);
+        $(this).val('');
+        refreshDropdown($('#inh_filter').val().toLowerCase());
+    });
+
+    $('#inh_filter').on('keyup change', function(){
+        refreshDropdown($(this).val().toLowerCase());
+    });
+
+    refreshDropdown('');
+
     $('.speise_edit').on('click', function(e){
         e.preventDefault();
         var li = $(this).closest('li');
@@ -23,10 +67,12 @@ jQuery(function($){
         $('#speise_form [name="name"]').val(li.data('name'));
         $('#speise_form [name="beschreibung"]').val(li.data('beschreibung'));
         var inh = li.data('inhaltsstoffe').toString().split(',');
-        $('#speise_form input[name="inhaltsstoffe[]"]').prop('checked', false);
+        $('.inh-selected').empty();
         inh.forEach(function(c){
-            $('#speise_form input[name="inhaltsstoffe[]"][value="'+c+'"]').prop('checked', true);
+            var obj = allInhaltsstoffe.find(function(o){ return o.value === c; });
+            if(obj) addTag(obj.value, obj.text);
         });
+        refreshDropdown($('#inh_filter').val().toLowerCase());
         $('#speise_form .bild_id').val(li.data('bild'));
         var img = li.find('img').first();
         if(img.length){
@@ -91,11 +137,4 @@ jQuery(function($){
     $('#speisen_search').on('keyup change', applySpeisenFilter);
     applySpeisenFilter();
 
-    $('#inh_filter').on('keyup change', function(){
-        var q = $(this).val().toLowerCase();
-        $('.inh-checkbox-list label').each(function(){
-            var t = $(this).text().toLowerCase();
-            $(this).toggle(t.indexOf(q) !== -1);
-        });
-    });
 });

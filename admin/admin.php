@@ -69,11 +69,13 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <input type="text" name="beschreibung" placeholder="Beschreibung">
         <div class="inh-select">
             <input type="text" id="inh_filter" placeholder="Inhaltsstoffe filtern">
-            <div class="inh-checkbox-list">
-            <?php foreach($inhaltsstoff_codes as $code => $name): ?>
-                <label><input type="checkbox" name="inhaltsstoffe[]" value="<?php echo esc_attr($code); ?>"> <?php echo esc_html($code.' - '.$name); ?></label><br>
-            <?php endforeach; ?>
-            </div>
+            <select id="inh_dropdown">
+                <option value="">Inhaltsstoff wählen</option>
+                <?php foreach($inhaltsstoff_codes as $code => $name): ?>
+                    <option value="<?php echo esc_attr($code); ?>"><?php echo esc_html($code.' - '.$name); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <div class="inh-selected"></div>
         </div>
         <input type="hidden" name="bild_id" class="bild_id">
         <button type="button" class="button bild_upload">Bild wählen</button>
