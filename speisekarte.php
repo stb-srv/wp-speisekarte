@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-speisekarte-stb-srv
  * Description: Zeigt eine Speisekarte als Accordion an, Kategorien und Speisen im Adminbereich verwalten, Sortierung per Drag & Drop, Bild-Upload pro Speise.
- * Version: 1.4
+ * Version: 1.5
  * Author: stb-srv
  * Text Domain: speisekarte
  */
@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) exit;
 class Speisekarte_Plugin {
     public function __construct() {
         register_activation_hook(__FILE__, [$this, 'install']);
+        add_action('plugins_loaded', [$this, 'maybe_upgrade']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'admin_assets']);
         add_action('wp_ajax_update_speisen_order', [$this, 'update_speisen_order']);
@@ -79,6 +80,14 @@ class Speisekarte_Plugin {
             foreach ($defaults as $code => $name) {
                 $wpdb->insert($table_inh, ['code' => $code, 'name' => $name]);
             }
+        }
+    }
+
+    public function maybe_upgrade() {
+        global $wpdb;
+        $table_inh = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
+        if ($wpdb->get_var("SHOW TABLES LIKE '{$table_inh}'") !== $table_inh) {
+            $this->install();
         }
     }
 
