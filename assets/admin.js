@@ -23,7 +23,10 @@ jQuery(function($){
         $('#speise_form [name="name"]').val(li.data('name'));
         $('#speise_form [name="beschreibung"]').val(li.data('beschreibung'));
         var inh = li.data('inhaltsstoffe').toString().split(',');
-        $('#speise_form [name="inhaltsstoffe[]"]').val(inh);
+        $('#speise_form input[name="inhaltsstoffe[]"]').prop('checked', false);
+        inh.forEach(function(c){
+            $('#speise_form input[name="inhaltsstoffe[]"][value="'+c+'"]').prop('checked', true);
+        });
         $('#speise_form .bild_id').val(li.data('bild'));
         var img = li.find('img').first();
         if(img.length){
@@ -87,4 +90,12 @@ jQuery(function($){
     $('#speisen_kat_filter').on('change', applySpeisenFilter);
     $('#speisen_search').on('keyup change', applySpeisenFilter);
     applySpeisenFilter();
+
+    $('#inh_filter').on('keyup change', function(){
+        var q = $(this).val().toLowerCase();
+        $('.inh-checkbox-list label').each(function(){
+            var t = $(this).text().toLowerCase();
+            $(this).toggle(t.indexOf(q) !== -1);
+        });
+    });
 });
