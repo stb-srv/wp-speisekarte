@@ -3,6 +3,24 @@ global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
 
+// Vorgabe-Liste der Allergen-Codes
+$inhaltsstoff_codes = [
+    'a' => 'Glutenhaltig',
+    'b' => 'Krebstiere',
+    'c' => 'Eier',
+    'd' => 'Fisch',
+    'e' => 'Erdnüsse',
+    'f' => 'Soja',
+    'g' => 'Milch',
+    'h' => 'Schalenfrüchte',
+    'i' => 'Sellerie',
+    'j' => 'Senf',
+    'k' => 'Sesam',
+    'l' => 'Schwefeldioxid/Sulfite',
+    'm' => 'Lupinen',
+    'n' => 'Weichtiere'
+];
+
 // Kategorie hinzufügen/bearbeiten
 if (isset($_POST['kat_save'])) {
     $name = sanitize_text_field($_POST['kat_name']);
@@ -78,18 +96,38 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <input type="text" name="nr" placeholder="Nr" style="width:5em;">
         <input type="text" name="name" placeholder="Name" required>
         <input type="text" name="beschreibung" placeholder="Beschreibung">
-        <input type="text" name="inhaltsstoffe" placeholder="Inhaltsstoffe">
+        <input type="text" name="inhaltsstoffe" placeholder="Inhaltsstoffe" list="inhaltsstoffe_codes">
+        <datalist id="inhaltsstoffe_codes">
+            <?php foreach($inhaltsstoff_codes as $code => $name): ?>
+                <option value="<?php echo esc_attr($code); ?>" label="<?php echo esc_attr($name); ?>"></option>
+            <?php endforeach; ?>
+        </datalist>
+        <ul class="inhaltsstoffe-list">
+            <?php foreach($inhaltsstoff_codes as $code => $name): ?>
+                <li><?php echo esc_html($code.' - '.$name); ?></li>
+            <?php endforeach; ?>
+        </ul>
         <input type="hidden" name="bild_id" class="bild_id">
         <button type="button" class="button bild_upload">Bild wählen</button>
         <span class="bild_preview"></span>
         <button class="button button-primary" name="speise_save">Speichern</button>
     </form>
     <h3>Speisen-Liste</h3>
-    <?php foreach($kats as $k): 
+    <div class="speisen-filter">
+        <select id="speisen_kat_filter">
+            <option value="">Alle Kategorien</option>
+            <?php foreach($kats as $k): ?>
+                <option value="<?php echo $k->id; ?>"><?php echo esc_html($k->name); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <input type="text" id="speisen_search" placeholder="Suche...">
+    </div>
+    <?php foreach($kats as $k):
         $speisen = $wpdb->get_results($wpdb->prepare(
             "SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $k->id
         ));
         if(!$speisen) continue; ?>
+        <div class="speisen-kat-block" data-kat="<?php echo $k->id; ?>">
         <h4><?php echo esc_html($k->name); ?></h4>
         <ul class="speisen-sortable" data-kat="<?php echo $k->id; ?>">
         <?php foreach($speisen as $s): ?>
@@ -109,5 +147,6 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
             </li>
         <?php endforeach; ?>
         </ul>
+        </div>
     <?php endforeach; ?>
 </div>

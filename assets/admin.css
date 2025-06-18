@@ -1,3 +1,7 @@
 .speisen-sortable { list-style:none; padding:0; margin:0 0 2em 0;}
 .speisen-sortable li { background:#f6f6f6; margin-bottom:5px; padding:7px; border:1px solid #eee; cursor:move; }
 .bild_preview img { display:inline; margin-left:5px; }
+.speisen-filter { margin-bottom:1em; }
+.speisen-filter select, .speisen-filter input { margin-right:10px; }
+.inhaltsstoffe-list { list-style:disc; margin:5px 0 10px 20px; padding:0; font-size:0.9em; color:#555; }
+.inhaltsstoffe-list li { margin:0; }
