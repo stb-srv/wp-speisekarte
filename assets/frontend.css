@@ -1,0 +1,7 @@
+.speisekarte-accordion .speisekarte-content { display:none; padding:0.5em 1em; }
+.speisekarte-toggle { width:100%; text-align:left; font-size:1.2em; padding:0.7em; background:#f1f1f1; border:none; cursor:pointer; }
+.speisekarte-toggle.active { background:#e1e1e1; }
+.speisekarte-kat { margin-bottom:10px; border:1px solid #ddd; border-radius:6px; overflow:hidden;}
+.speisekarte-accordion table { width:100%; }
+.speisekarte-accordion td.nr { width:40px; font-weight:bold; }
+.speisekarte-accordion td.bild img { border-radius:6px; }
