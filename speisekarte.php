@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-speisekarte-stb-srv
  * Description: Zeigt eine Speisekarte als Accordion an, Kategorien und Speisen im Adminbereich verwalten, Sortierung per Drag & Drop, Bild-Upload pro Speise.
- * Version: 1.4
+ * Version: 1.5
  * Author: stb-srv
  * Text Domain: speisekarte
  */
@@ -12,6 +12,7 @@ if (!defined('ABSPATH')) exit;
 class Speisekarte_Plugin {
     public function __construct() {
         register_activation_hook(__FILE__, [$this, 'install']);
+        add_action('plugins_loaded', [$this, 'maybe_upgrade']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'admin_assets']);
         add_action('wp_ajax_update_speisen_order', [$this, 'update_speisen_order']);
@@ -82,9 +83,18 @@ class Speisekarte_Plugin {
         }
     }
 
+    public function maybe_upgrade() {
+        global $wpdb;
+        $table_inh = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
+        if ($wpdb->get_var("SHOW TABLES LIKE '{$table_inh}'") !== $table_inh) {
+            $this->install();
+        }
+    }
+
     public function admin_menu() {
         add_menu_page('Speisekarte', 'Speisekarte', 'manage_options', 'speisekarte', [$this, 'admin_page'], 'dashicons-food', 26);
         add_submenu_page('speisekarte', 'Import/Export', 'Import/Export', 'manage_options', 'speisekarte-import', [$this, 'import_export_page']);
+        add_submenu_page('speisekarte', 'Inhaltsstoffe', 'Inhaltsstoffe', 'manage_options', 'speisekarte-inhaltsstoffe', [$this, 'inhaltsstoffe_page']);
     }
 
     public function admin_assets($hook) {
@@ -110,6 +120,10 @@ class Speisekarte_Plugin {
 
     public function import_export_page() {
         include(plugin_dir_path(__FILE__).'admin/import_export.php');
+    }
+
+    public function inhaltsstoffe_page() {
+        include(plugin_dir_path(__FILE__).'admin/inhaltsstoffe.php');
     }
 
     public function update_speisen_order() {

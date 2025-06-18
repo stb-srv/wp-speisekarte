@@ -9,23 +9,6 @@ foreach ($rows as $r) {
     $inhaltsstoff_codes[$r->code] = $r->name;
 }
 
-// Vorgabe-Liste der Allergen-Codes
-$inhaltsstoff_codes = [
-    'a' => 'Glutenhaltig',
-    'b' => 'Krebstiere',
-    'c' => 'Eier',
-    'd' => 'Fisch',
-    'e' => 'Erdnüsse',
-    'f' => 'Soja',
-    'g' => 'Milch',
-    'h' => 'Schalenfrüchte',
-    'i' => 'Sellerie',
-    'j' => 'Senf',
-    'k' => 'Sesam',
-    'l' => 'Schwefeldioxid/Sulfite',
-    'm' => 'Lupinen',
-    'n' => 'Weichtiere'
-];
 
 // Kategorie hinzufügen/bearbeiten
 if (isset($_POST['kat_save'])) {
