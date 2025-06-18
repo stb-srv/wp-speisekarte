@@ -85,11 +85,21 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <button class="button button-primary" name="speise_save">Speichern</button>
     </form>
     <h3>Speisen-Liste</h3>
-    <?php foreach($kats as $k): 
+    <div class="speisen-filter">
+        <select id="speisen_kat_filter">
+            <option value="">Alle Kategorien</option>
+            <?php foreach($kats as $k): ?>
+                <option value="<?php echo $k->id; ?>"><?php echo esc_html($k->name); ?></option>
+            <?php endforeach; ?>
+        </select>
+        <input type="text" id="speisen_search" placeholder="Suche...">
+    </div>
+    <?php foreach($kats as $k):
         $speisen = $wpdb->get_results($wpdb->prepare(
             "SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $k->id
         ));
         if(!$speisen) continue; ?>
+        <div class="speisen-kat-block" data-kat="<?php echo $k->id; ?>">
         <h4><?php echo esc_html($k->name); ?></h4>
         <ul class="speisen-sortable" data-kat="<?php echo $k->id; ?>">
         <?php foreach($speisen as $s): ?>
@@ -109,5 +119,6 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
             </li>
         <?php endforeach; ?>
         </ul>
+        </div>
     <?php endforeach; ?>
 </div>
