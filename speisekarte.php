@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-speisekarte-stb-srv
  * Description: Zeigt eine Speisekarte als Accordion an, Kategorien und Speisen im Adminbereich verwalten, Sortierung per Drag & Drop, Bild-Upload pro Speise.
- * Version: 1.3
+ * Version: 1.4
  * Author: stb-srv
  * Text Domain: speisekarte
  */
@@ -24,6 +24,7 @@ class Speisekarte_Plugin {
         $charset_collate = $wpdb->get_charset_collate();
         $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
         $table_speise = $wpdb->prefix . 'speisekarte_speisen';
+        $table_inh = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta("
@@ -47,6 +48,38 @@ class Speisekarte_Plugin {
                 PRIMARY KEY (id)
             ) $charset_collate;
         ");
+        dbDelta("
+            CREATE TABLE $table_inh (
+                id mediumint(9) NOT NULL AUTO_INCREMENT,
+                code varchar(20) NOT NULL,
+                name varchar(255) NOT NULL,
+                PRIMARY KEY (id),
+                UNIQUE KEY code (code)
+            ) $charset_collate;
+        ");
+
+        $exists = $wpdb->get_var("SELECT COUNT(*) FROM $table_inh");
+        if (!$exists) {
+            $defaults = [
+                'a' => 'Glutenhaltig',
+                'b' => 'Krebstiere',
+                'c' => 'Eier',
+                'd' => 'Fisch',
+                'e' => 'Erdn\u00fcsse',
+                'f' => 'Soja',
+                'g' => 'Milch',
+                'h' => 'Schalenfr\u00fcchte',
+                'i' => 'Sellerie',
+                'j' => 'Senf',
+                'k' => 'Sesam',
+                'l' => 'Schwefeldioxid/Sulfite',
+                'm' => 'Lupinen',
+                'n' => 'Weichtiere'
+            ];
+            foreach ($defaults as $code => $name) {
+                $wpdb->insert($table_inh, ['code' => $code, 'name' => $name]);
+            }
+        }
     }
 
     public function admin_menu() {

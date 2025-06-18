@@ -5,13 +5,11 @@ global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
 
-// Export data
-if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
     $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
     foreach ($kats as &$kat) {
         $kat['speisen'] = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
     }
-    $json = wp_json_encode($kats);
+
     header('Content-Type: application/json');
     header('Content-Disposition: attachment; filename="speisekarte_export.json"');
     echo $json;
@@ -23,9 +21,7 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
     if (!empty($_FILES['import_file']['tmp_name'])) {
         $data = json_decode(file_get_contents($_FILES['import_file']['tmp_name']), true);
         if (is_array($data)) {
-            $wpdb->query("TRUNCATE TABLE $table_speise");
-            $wpdb->query("TRUNCATE TABLE $table_kat");
-            foreach ($data as $k_index => $kat) {
+
                 $wpdb->insert($table_kat, ['name' => $kat['name'], 'sort' => $k_index]);
                 $kat_id = $wpdb->insert_id;
                 if (!empty($kat['speisen']) && is_array($kat['speisen'])) {

@@ -6,6 +6,14 @@ jQuery(function($){
         $('#kat_form [name="kat_name"]').val(row.data('name'));
     });
 
+    $('.inh_edit').on('click', function(e){
+        e.preventDefault();
+        var row = $(this).closest('tr');
+        $('#inh_form [name="inh_id"]').val(row.data('id'));
+        $('#inh_form [name="code"]').val(row.data('code'));
+        $('#inh_form [name="name"]').val(row.data('name'));
+    });
+
     $('.speise_edit').on('click', function(e){
         e.preventDefault();
         var li = $(this).closest('li');

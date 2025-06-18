@@ -2,6 +2,12 @@
 global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
+$table_inh = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
+$inhaltsstoff_codes = [];
+$rows = $wpdb->get_results("SELECT code, name FROM $table_inh ORDER BY code");
+foreach ($rows as $r) {
+    $inhaltsstoff_codes[$r->code] = $r->name;
+}
 
 // Vorgabe-Liste der Allergen-Codes
 $inhaltsstoff_codes = [
