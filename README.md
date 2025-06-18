@@ -9,6 +9,5 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Sortierung der Speisen per Drag & Drop
 - Filtermöglichkeit nach Kategorie und Suche im Admin
 - Import/Export der kompletten Speisekarte
-- Dropdown-Liste mit selbst angelegten Inhaltsstoff-Codes
 - Accordion-Darstellung im Frontend
 - Shortcode: [speisekarte]

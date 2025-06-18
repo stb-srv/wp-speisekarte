@@ -3,5 +3,3 @@
 .bild_preview img { display:inline; margin-left:5px; }
 .speisen-filter { margin-bottom:1em; }
 .speisen-filter select, .speisen-filter input { margin-right:10px; }
-.inhaltsstoffe-list { list-style:disc; margin:5px 0 10px 20px; padding:0; font-size:0.9em; color:#555; }
-.inhaltsstoffe-list li { margin:0; }
