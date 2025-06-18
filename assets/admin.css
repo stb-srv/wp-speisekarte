@@ -5,7 +5,10 @@
 .speisen-filter select, .speisen-filter input { margin-right:10px; }
 .inh-select { display:inline-block; vertical-align:top; margin-right:10px; }
 .inh-select input { margin-bottom:4px; width:100%; }
-.inh-checkbox-list { border:1px solid #ccd0d4; background:#fff; padding:5px; max-height:120px; overflow:auto; }
+#inh_dropdown { width:100%; margin-bottom:4px; }
+.inh-selected { margin-top:4px; }
+.inh-tag { background:#2271b1; color:#fff; padding:2px 5px; border-radius:3px; margin-right:4px; display:inline-block; font-size:12px; }
+.inh-tag .inh-remove { color:#fff; margin-left:4px; text-decoration:none; }
 #speise_form {
     background:#fffbe6;
     padding:15px;
