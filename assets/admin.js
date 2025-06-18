@@ -49,4 +49,33 @@ jQuery(function($){
             });
         }
     });
+
+    function applySpeisenFilter(){
+        var kat = $('#speisen_kat_filter').val();
+        var query = $('#speisen_search').val().toLowerCase();
+        $('.speisen-kat-block').each(function(){
+            var block = $(this);
+            var katId = block.data('kat').toString();
+            var showKat = !kat || katId === kat;
+            var anyVisible = false;
+            block.find('li.speise-item').each(function(){
+                var li = $(this);
+                var text = (
+                    li.data('nr') + ' ' +
+                    li.data('name') + ' ' +
+                    li.data('beschreibung') + ' ' +
+                    li.data('inhaltsstoffe')
+                ).toLowerCase();
+                var match = !query || text.indexOf(query) !== -1;
+                var show = showKat && match;
+                li.toggle(show);
+                if(show) anyVisible = true;
+            });
+            block.toggle(anyVisible);
+        });
+    }
+
+    $('#speisen_kat_filter').on('change', applySpeisenFilter);
+    $('#speisen_search').on('keyup change', applySpeisenFilter);
+    applySpeisenFilter();
 });
