@@ -1,4 +1,4 @@
-# Speisekarte WordPress-Plugin
+# wp-speisekarte-stb-srv WordPress-Plugin
 
 Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte auf Ihrer WordPress-Seite.
 
