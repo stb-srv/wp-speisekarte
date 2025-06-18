@@ -27,11 +27,13 @@ if (isset($_GET['kat_del'])) {
 
 // Speise hinzufügen/bearbeiten
 if (isset($_POST['speise_save'])) {
+    $inh = isset($_POST['inhaltsstoffe']) ? (array)$_POST['inhaltsstoffe'] : [];
+    $inh = array_map('sanitize_text_field', $inh);
     $data = [
         'nr' => sanitize_text_field($_POST['nr']),
         'name' => sanitize_text_field($_POST['name']),
         'beschreibung' => sanitize_text_field($_POST['beschreibung']),
-        'inhaltsstoffe' => sanitize_text_field($_POST['inhaltsstoffe']),
+        'inhaltsstoffe' => implode(',', $inh),
         'bild_id' => intval($_POST['bild_id']),
         'kategorie_id' => intval($_POST['kategorie_id'])
     ];
@@ -85,17 +87,11 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <input type="text" name="nr" placeholder="Nr" style="width:5em;">
         <input type="text" name="name" placeholder="Name" required>
         <input type="text" name="beschreibung" placeholder="Beschreibung">
-        <input type="text" name="inhaltsstoffe" placeholder="Inhaltsstoffe" list="inhaltsstoffe_codes">
-        <datalist id="inhaltsstoffe_codes">
+        <select name="inhaltsstoffe[]" multiple size="5" class="inh-multiselect">
             <?php foreach($inhaltsstoff_codes as $code => $name): ?>
-                <option value="<?php echo esc_attr($code); ?>" label="<?php echo esc_attr($name); ?>"></option>
+                <option value="<?php echo esc_attr($code); ?>"><?php echo esc_html($code.' - '.$name); ?></option>
             <?php endforeach; ?>
-        </datalist>
-        <ul class="inhaltsstoffe-list">
-            <?php foreach($inhaltsstoff_codes as $code => $name): ?>
-                <li><?php echo esc_html($code.' - '.$name); ?></li>
-            <?php endforeach; ?>
-        </ul>
+        </select>
         <input type="hidden" name="bild_id" class="bild_id">
         <button type="button" class="button bild_upload">Bild wählen</button>
         <span class="bild_preview"></span>
