@@ -2,16 +2,22 @@
 if (!defined('ABSPATH')) exit;
 $font_family = get_option('speisekarte_font_family', '');
 $font_color = get_option('speisekarte_font_color', '#000000');
+$tile_font_color = get_option('speisekarte_tile_font_color', '#000000');
+$item_font_color = get_option('speisekarte_item_font_color', '#000000');
 $bg_color = get_option('speisekarte_background_color', '#f1f1f1');
 $active_color = get_option('speisekarte_active_color', '#e1e1e1');
 if (isset($_POST['design_save'])) {
     check_admin_referer('speisekarte_design_save');
     $font_family = sanitize_text_field($_POST['font_family']);
     $font_color = sanitize_hex_color($_POST['font_color']) ?: '#000000';
+    $tile_font_color = sanitize_hex_color($_POST['tile_font_color']) ?: '#000000';
+    $item_font_color = sanitize_hex_color($_POST['item_font_color']) ?: '#000000';
     $bg_color = sanitize_hex_color($_POST['bg_color']) ?: '#f1f1f1';
     $active_color = sanitize_hex_color($_POST['active_color']) ?: '#e1e1e1';
     update_option('speisekarte_font_family', $font_family);
     update_option('speisekarte_font_color', $font_color);
+    update_option('speisekarte_tile_font_color', $tile_font_color);
+    update_option('speisekarte_item_font_color', $item_font_color);
     update_option('speisekarte_background_color', $bg_color);
     update_option('speisekarte_active_color', $active_color);
     echo '<div class="updated notice"><p>Einstellungen gespeichert.</p></div>';
@@ -45,6 +51,14 @@ if (isset($_POST['design_save'])) {
             <tr>
                 <th scope="row"><label for="font_color">Schriftfarbe</label></th>
                 <td><input type="text" id="font_color" name="font_color" value="<?php echo esc_attr($font_color); ?>" class="color-picker" data-default-color="#000000"></td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="tile_font_color">Schriftfarbe Kategorie</label></th>
+                <td><input type="text" id="tile_font_color" name="tile_font_color" value="<?php echo esc_attr($tile_font_color); ?>" class="color-picker" data-default-color="#000000"></td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="item_font_color">Schriftfarbe Speisen</label></th>
+                <td><input type="text" id="item_font_color" name="item_font_color" value="<?php echo esc_attr($item_font_color); ?>" class="color-picker" data-default-color="#000000"></td>
             </tr>
             <tr>
                 <th scope="row"><label for="bg_color">Kachel-Hintergrund</label></th>

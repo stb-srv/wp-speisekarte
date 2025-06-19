@@ -69,6 +69,7 @@ jQuery(function($){
         $('#speise_form [name="nr"]').val(li.data('nr'));
         $('#speise_form [name="name"]').val(li.data('name'));
         $('#speise_form [name="beschreibung"]').val(li.data('beschreibung'));
+        $('#speise_form [name="preis"]').val(li.data('preis'));
         var inh = li.data('inhaltsstoffe').toString().split(',');
         $('.inh-selected').empty();
         inh.forEach(function(c){

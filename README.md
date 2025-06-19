@@ -15,5 +15,6 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Einstellbare Spaltenanzahl im Frontend
 - Einheitliche Höhe der Kategorie-Header
 - Optionale Breite der Kategorie-Header
-- Eigene Design-Einstellungen f\u00fcr Schriftart, Schriftfarbe und Kachelfarben
+- Eigene Design-Einstellungen f\u00fcr Schriftart, Schriftfarben (Kategorie und Speisen) und Kachelfarben
+- Preisangabe f\u00fcr jede Speise
 - Shortcode: [speisekarte]

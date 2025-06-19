@@ -11,7 +11,7 @@ if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
     header('Content-Disposition: attachment; filename="speisekarte_export.csv"');
 
     $output = fopen('php://output', 'w');
-    fputcsv($output, ['Kategorie', 'Nr', 'Name', 'Beschreibung', 'Inhaltsstoffe', 'BildID'], ';');
+    fputcsv($output, ['Kategorie', 'Nr', 'Name', 'Beschreibung', 'Inhaltsstoffe', 'Preis', 'BildID'], ';');
 
     $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
     foreach ($kats as $kat) {
@@ -23,6 +23,7 @@ if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
                 $sp['name'],
                 $sp['beschreibung'],
                 $sp['inhaltsstoffe'],
+                $sp['preis'],
                 $sp['bild_id'],
             ], ';');
         }
@@ -46,6 +47,7 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
                             'name'         => $sp['name'],
                             'beschreibung' => $sp['beschreibung'],
                             'inhaltsstoffe'=> $sp['inhaltsstoffe'],
+                            'preis'        => $sp['preis'],
                             'bild_id'      => $sp['bild_id'],
                             'kategorie_id' => $kat_id,
                             'sort'         => $s_index,

@@ -43,6 +43,7 @@ class Speisekarte_Plugin {
                 name varchar(255) NOT NULL,
                 beschreibung text,
                 inhaltsstoffe text,
+                preis decimal(8,2) DEFAULT 0,
                 bild_id bigint(20) DEFAULT NULL,
                 kategorie_id mediumint(9) NOT NULL,
                 sort int NOT NULL DEFAULT 0,
@@ -87,6 +88,8 @@ class Speisekarte_Plugin {
         add_option('speisekarte_tile_width', 0);
         add_option('speisekarte_font_family', '');
         add_option('speisekarte_font_color', '#000000');
+        add_option('speisekarte_tile_font_color', '#000000');
+        add_option('speisekarte_item_font_color', '#000000');
         add_option('speisekarte_background_color', '#f1f1f1');
         add_option('speisekarte_active_color', '#e1e1e1');
     }
@@ -106,11 +109,23 @@ class Speisekarte_Plugin {
         if (get_option('speisekarte_font_color', null) === null) {
             add_option('speisekarte_font_color', '#000000');
         }
+        if (get_option('speisekarte_tile_font_color', null) === null) {
+            add_option('speisekarte_tile_font_color', '#000000');
+        }
+        if (get_option('speisekarte_item_font_color', null) === null) {
+            add_option('speisekarte_item_font_color', '#000000');
+        }
         if (get_option('speisekarte_background_color', null) === null) {
             add_option('speisekarte_background_color', '#f1f1f1');
         }
         if (get_option('speisekarte_active_color', null) === null) {
             add_option('speisekarte_active_color', '#e1e1e1');
+        }
+
+        $table_speise = $wpdb->prefix . 'speisekarte_speisen';
+        $col = $wpdb->get_var("SHOW COLUMNS FROM $table_speise LIKE 'preis'");
+        if (!$col) {
+            $wpdb->query("ALTER TABLE $table_speise ADD preis decimal(8,2) DEFAULT 0 AFTER inhaltsstoffe");
         }
     }
 
@@ -144,6 +159,10 @@ class Speisekarte_Plugin {
         if ($font) $vars .= '--font-family:' . esc_attr($font) . ';';
         $font_color = get_option('speisekarte_font_color', '#000000');
         if ($font_color) $vars .= '--font-color:' . esc_attr($font_color) . ';';
+        $tile_font_color = get_option('speisekarte_tile_font_color', '#000000');
+        if ($tile_font_color) $vars .= '--tile-font-color:' . esc_attr($tile_font_color) . ';';
+        $item_font_color = get_option('speisekarte_item_font_color', '#000000');
+        if ($item_font_color) $vars .= '--item-font-color:' . esc_attr($item_font_color) . ';';
         $bg = get_option('speisekarte_background_color', '#f1f1f1');
         if ($bg) $vars .= '--toggle-bg:' . esc_attr($bg) . ';';
         $active = get_option('speisekarte_active_color', '#e1e1e1');
