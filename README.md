@@ -8,8 +8,8 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Bild-Upload je Speise (Medienbibliothek)
 - Sortierung der Speisen per Drag & Drop
 - Filtermöglichkeit nach Kategorie und Suche im Admin
-- Import/Export der kompletten Speisekarte
-- Export der Daten als CSV-Datei mit Download-Historie
+- Import/Export der kompletten Speisekarte inklusive Inhaltsstoffe und Kategorien
+- Export der Daten als JSON-Datei mit Download-Historie
 - Individuelle Verwaltung der Inhaltsstoffe
 - Accordion-Darstellung im Frontend
 - Einstellbare Spaltenanzahl im Frontend
