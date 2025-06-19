@@ -55,7 +55,7 @@ if (isset($_POST['fonts_save'])) {
                 </td>
             </tr>
             <tr>
-                <th scope="row"><label for="font_color">Schriftfarbe</label></th>
+                <th scope="row"><label for="font_color">Schriftfarbe Zusatzinformationen</label></th>
                 <td><input type="text" id="font_color" name="font_color" value="<?php echo esc_attr($font_color); ?>" class="color-picker" data-default-color="#000000"></td>
             </tr>
             <tr>
