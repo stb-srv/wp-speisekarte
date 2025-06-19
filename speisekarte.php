@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-speisekarte-stb-srv
  * Description: Zeigt eine Speisekarte als Accordion an, Kategorien und Speisen im Adminbereich verwalten, Sortierung per Drag & Drop, Bild-Upload pro Speise.
- * Version: 2.1.0
+ * Version: 2.2.0
  * Author: stb-srv
  * Text Domain: speisekarte
  */
@@ -108,6 +108,11 @@ class Speisekarte_Plugin {
         add_option('speisekarte_item_font_color', '#000000');
         add_option('speisekarte_background_color', '#f1f1f1');
         add_option('speisekarte_active_color', '#e1e1e1');
+        add_option('speisekarte_font_color_dark', '#dddddd');
+        add_option('speisekarte_tile_font_color_dark', '#ffd700');
+        add_option('speisekarte_item_font_color_dark', '#ffffff');
+        add_option('speisekarte_background_color_dark', '#1b3b6f');
+        add_option('speisekarte_active_color_dark', '#1e447c');
         add_option('speisekarte_item_font_family', '');
         add_option('speisekarte_item_font_size', '');
         add_option('speisekarte_item_font_weight', '');
@@ -143,6 +148,21 @@ class Speisekarte_Plugin {
         }
         if (get_option('speisekarte_active_color', null) === null) {
             add_option('speisekarte_active_color', '#e1e1e1');
+        }
+        if (get_option('speisekarte_font_color_dark', null) === null) {
+            add_option('speisekarte_font_color_dark', '#dddddd');
+        }
+        if (get_option('speisekarte_tile_font_color_dark', null) === null) {
+            add_option('speisekarte_tile_font_color_dark', '#ffd700');
+        }
+        if (get_option('speisekarte_item_font_color_dark', null) === null) {
+            add_option('speisekarte_item_font_color_dark', '#ffffff');
+        }
+        if (get_option('speisekarte_background_color_dark', null) === null) {
+            add_option('speisekarte_background_color_dark', '#1b3b6f');
+        }
+        if (get_option('speisekarte_active_color_dark', null) === null) {
+            add_option('speisekarte_active_color_dark', '#1e447c');
         }
         if (get_option('speisekarte_item_font_family', null) === null) {
             add_option('speisekarte_item_font_family', '');
@@ -211,8 +231,22 @@ class Speisekarte_Plugin {
         if ($bg) $vars .= '--toggle-bg:' . esc_attr($bg) . ';';
         $active = get_option('speisekarte_active_color', '#e1e1e1');
         if ($active) $vars .= '--toggle-active-bg:' . esc_attr($active) . ';';
-        if ($vars) {
-            wp_add_inline_style('speisekarte-frontend', ':root{' . $vars . '}');
+        $dark_vars = '';
+        $font_color_d = get_option('speisekarte_font_color_dark', '#dddddd');
+        if ($font_color_d) $dark_vars .= '--font-color:' . esc_attr($font_color_d) . ';';
+        $tile_font_color_d = get_option('speisekarte_tile_font_color_dark', '#ffd700');
+        if ($tile_font_color_d) $dark_vars .= '--tile-font-color:' . esc_attr($tile_font_color_d) . ';';
+        $item_font_color_d = get_option('speisekarte_item_font_color_dark', '#ffffff');
+        if ($item_font_color_d) $dark_vars .= '--item-font-color:' . esc_attr($item_font_color_d) . ';';
+        $bg_d = get_option('speisekarte_background_color_dark', '#1b3b6f');
+        if ($bg_d) $dark_vars .= '--toggle-bg:' . esc_attr($bg_d) . ';';
+        $active_d = get_option('speisekarte_active_color_dark', '#1e447c');
+        if ($active_d) $dark_vars .= '--toggle-active-bg:' . esc_attr($active_d) . ';';
+        $inline = '';
+        if ($vars) $inline .= ':root{' . $vars . '}';
+        if ($dark_vars) $inline .= '@media (prefers-color-scheme: dark){:root{' . $dark_vars . '}}';
+        if ($inline) {
+            wp_add_inline_style('speisekarte-frontend', $inline);
         }
         wp_enqueue_script('speisekarte-frontend', plugin_dir_url(__FILE__).'assets/frontend.js', ['jquery'], '1.0', true);
     }
