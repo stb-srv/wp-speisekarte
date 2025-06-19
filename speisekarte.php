@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-speisekarte-stb-srv
  * Description: Zeigt eine Speisekarte als Accordion an, Kategorien und Speisen im Adminbereich verwalten, Sortierung per Drag & Drop, Bild-Upload pro Speise.
- * Version: 1.8
+ * Version: 1.8.1
  * Author: stb-srv
  * Text Domain: speisekarte
  */
@@ -15,6 +15,7 @@ class Speisekarte_Plugin {
         add_action('plugins_loaded', [$this, 'maybe_upgrade']);
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('admin_enqueue_scripts', [$this, 'admin_assets']);
+        add_action('admin_init', [$this, 'handle_export_download']);
         add_action('wp_ajax_update_speisen_order', [$this, 'update_speisen_order']);
         add_shortcode('speisekarte', [$this, 'shortcode']);
         add_action('wp_enqueue_scripts', [$this, 'frontend_assets']);
@@ -187,6 +188,63 @@ class Speisekarte_Plugin {
 
     public function design_page() {
         include(plugin_dir_path(__FILE__).'admin/design.php');
+    }
+
+    public function handle_export_download() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+        $page = $_GET['page'] ?? '';
+        if ($page !== 'speisekarte-import') {
+            return;
+        }
+
+        global $wpdb;
+        $table_kat    = $wpdb->prefix . 'speisekarte_kategorien';
+        $table_speise = $wpdb->prefix . 'speisekarte_speisen';
+        $upload       = wp_upload_dir();
+        $export_dir   = trailingslashit($upload['basedir']) . 'speisekarte_exports';
+        wp_mkdir_p($export_dir);
+
+        if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
+            $filename = 'speisekarte_export_' . date('Ymd_His') . '.csv';
+            $filepath = trailingslashit($export_dir) . $filename;
+            $output = fopen($filepath, 'w');
+            if ($output) {
+                fputcsv($output, ['Kategorie', 'Nr', 'Name', 'Beschreibung', 'Inhaltsstoffe', 'Preis', 'BildID'], ';');
+                $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
+                foreach ($kats as $kat) {
+                    $speisen = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
+                    foreach ($speisen as $sp) {
+                        fputcsv($output, [
+                            $kat['name'],
+                            $sp['nr'],
+                            $sp['name'],
+                            $sp['beschreibung'],
+                            $sp['inhaltsstoffe'],
+                            $sp['preis'],
+                            $sp['bild_id'],
+                        ], ';');
+                    }
+                }
+                fclose($output);
+                header('Content-Type: text/csv; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                readfile($filepath);
+            }
+            exit;
+        }
+
+        if (isset($_GET['download'])) {
+            $file = basename($_GET['download']);
+            $filepath = trailingslashit($export_dir) . $file;
+            if (file_exists($filepath)) {
+                header('Content-Type: text/csv; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $file . '"');
+                readfile($filepath);
+            }
+            exit;
+        }
     }
 
     public function update_speisen_order() {

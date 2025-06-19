@@ -8,48 +8,6 @@ $upload       = wp_upload_dir();
 $export_dir   = trailingslashit($upload['basedir']) . 'speisekarte_exports';
 wp_mkdir_p($export_dir);
 
-// Export CSV
-if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
-    $filename = 'speisekarte_export_' . date('Ymd_His') . '.csv';
-    $filepath = trailingslashit($export_dir) . $filename;
-    $output = fopen($filepath, 'w');
-    if ($output) {
-        fputcsv($output, ['Kategorie', 'Nr', 'Name', 'Beschreibung', 'Inhaltsstoffe', 'Preis', 'BildID'], ';');
-        $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
-        foreach ($kats as $kat) {
-            $speisen = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
-            foreach ($speisen as $sp) {
-                fputcsv($output, [
-                    $kat['name'],
-                    $sp['nr'],
-                    $sp['name'],
-                    $sp['beschreibung'],
-                    $sp['inhaltsstoffe'],
-                    $sp['preis'],
-                    $sp['bild_id'],
-                ], ';');
-            }
-        }
-        fclose($output);
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        readfile($filepath);
-    }
-    exit;
-}
-
-// Download existing export file
-if (isset($_GET['download'])) {
-    $file = basename($_GET['download']);
-    $filepath = trailingslashit($export_dir) . $file;
-    if (file_exists($filepath)) {
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename="' . $file . '"');
-        readfile($filepath);
-    }
-    exit;
-}
-
 $import_message = '';
 if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_import', 'speisekarte_import_nonce')) {
     if (!empty($_FILES['import_file']['tmp_name'])) {
