@@ -17,7 +17,7 @@ if (isset($_POST['inh_save'])) {
 if (isset($_GET['inh_del'])) {
     $wpdb->delete($table_inh, ['id' => intval($_GET['inh_del'])]);
 }
-if (!empty($_POST['bulk_del_inh']) && !empty($_POST['inh_ids'])) {
+if (isset($_POST['bulk_del_inh']) && !empty($_POST['inh_ids']) && check_admin_referer('speisekarte_bulk_delete')) {
     foreach ((array)$_POST['inh_ids'] as $id) {
         $wpdb->delete($table_inh, ['id' => intval($id)]);
     }
@@ -34,6 +34,7 @@ $codes = $wpdb->get_results("SELECT * FROM $table_inh ORDER BY code");
         <button class="button button-primary" name="inh_save">Speichern</button>
     </form>
     <form method="post" id="inh_bulk_form">
+        <?php wp_nonce_field('speisekarte_bulk_delete'); ?>
         <table class="widefat">
             <thead>
                 <tr>

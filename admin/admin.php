@@ -38,7 +38,7 @@ if (isset($_GET['kat_del'])) {
     $wpdb->delete($table_kat, ['id' => intval($_GET['kat_del'])]);
 }
 // Mehrere Kategorien löschen
-if (!empty($_POST['bulk_del_kats']) && !empty($_POST['cat_ids'])) {
+if (isset($_POST['bulk_del_kats']) && !empty($_POST['cat_ids']) && check_admin_referer('speisekarte_bulk_delete')) {
     foreach ((array)$_POST['cat_ids'] as $id) {
         $wpdb->delete($table_kat, ['id' => intval($id)]);
     }
@@ -70,7 +70,7 @@ if (isset($_GET['speise_del'])) {
     $wpdb->delete($table_speise, ['id' => intval($_GET['speise_del'])]);
 }
 // Mehrere Speisen löschen
-if (!empty($_POST['bulk_del_speisen']) && !empty($_POST['speise_ids'])) {
+if (isset($_POST['bulk_del_speisen']) && !empty($_POST['speise_ids']) && check_admin_referer('speisekarte_bulk_delete')) {
     foreach ((array)$_POST['speise_ids'] as $id) {
         $wpdb->delete($table_speise, ['id' => intval($id)]);
     }
@@ -132,6 +132,7 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <button class="button button-primary" name="kat_save">Speichern</button>
     </form>
     <form method="post" id="kat_bulk_form">
+        <?php wp_nonce_field('speisekarte_bulk_delete'); ?>
         <table class="widefat">
             <thead>
                 <tr>
@@ -156,6 +157,7 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <p><button class="button" name="bulk_del_kats" onclick="return confirm('Ausgewählte Kategorien löschen?')">Ausgewählte löschen</button></p>
     </form>
     <form method="post" id="speisen_bulk_form">
+        <?php wp_nonce_field('speisekarte_bulk_delete'); ?>
     <h3>Speisen-Liste</h3>
     <div class="speisen-filter">
         <select id="speisen_kat_filter">
