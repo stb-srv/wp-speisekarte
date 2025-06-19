@@ -17,8 +17,8 @@ foreach($rows as $r){
 }
 ?>
 <div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?><?php if($tile_width) echo '--tile-width:'.$tile_width.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>" data-tile-width="<?php echo $tile_width; ?>">
-<?php foreach($kats as $i => $kat): ?>
-    <div class="speisekarte-kat column-<?php echo (($i % $columns) + 1); ?>">
+<?php foreach($kats as $kat): ?>
+    <div class="speisekarte-kat">
         <button class="speisekarte-toggle"><?php echo esc_html($kat->name); ?></button>
         <div class="speisekarte-content">
             <?php
