@@ -10,6 +10,13 @@ $columns     = max(1, intval(get_option('speisekarte_columns', 1)));
 $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 if (!$kats) return;
 
+$default_id = speisekarte_get_default_kategorie_id();
+if (count($kats) > 1) {
+    $kats = array_values(array_filter($kats, function($k) use ($default_id) {
+        return $k->id != $default_id;
+    }));
+}
+
 $inh_map = [];
 $rows = $wpdb->get_results("SELECT code, name FROM $table_inh ORDER BY code");
 foreach ($rows as $r) {
