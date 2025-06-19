@@ -36,11 +36,11 @@ foreach ($rows as $r) {
 .kategorie-content{display:none;padding:1rem;}
 .speisekarte-liste{font-size:0.98em;padding-left:1.1em;}
 .speisekarte-liste li{margin-bottom:0.5em;line-height:1.3;}
-.speisekarte-nummer,.speisekarte-titel{font-size:1em;font-weight:bold;}
-.speisekarte-preis{font-size:0.98em;font-style:italic;font-weight:bold;float:right;}
-.speisekarte-beschreibung{font-size:0.96em;margin-left:0.2em;}
-.speisekarte-inhalt{font-size:0.93em;color:#888;font-style:italic;margin-left:1.5em;}
-.speisekarte-inhalt-label{font-size:0.93em;font-weight:bold;color:#888;margin-right:0.2em;}
+.speisekarte-nummer,.speisekarte-titel{font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,bold);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-preis{font-size:var(--item-font-size,0.98em);font-style:var(--item-font-style,italic);font-weight:var(--item-font-weight,bold);float:right;font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-beschreibung{font-size:var(--item-font-size,0.96em);margin-left:0.2em;font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-inhalt{font-size:var(--item-font-size,0.93em);color:#888;font-style:var(--item-font-style,italic);margin-left:1.5em;font-weight:var(--item-font-weight,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-inhalt-label{font-size:var(--item-font-size,0.93em);font-weight:var(--item-font-weight,bold);color:#888;margin-right:0.2em;font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
 </style>
 <div class="speisekarte-wrapper">
   <div class="speisekarte-search">

@@ -21,7 +21,7 @@
     color:inherit;
 }
 .speisekarte-toggle.active{background:transparent;color:inherit;}
-.speisekarte-item{display:grid;grid-template-columns:40px 1fr auto;align-items:start;column-gap:10px;font-family:var(--font-family,inherit);color:var(--item-font-color,var(--font-color,inherit));font-size:1em;}
+.speisekarte-item{display:grid;grid-template-columns:40px 1fr auto;align-items:start;column-gap:10px;font-family:var(--item-font-family,var(--font-family,inherit));color:var(--item-font-color,var(--font-color,inherit));font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);}
 .speisekarte-kat{
     margin-bottom:0;
     background:#d9d9d9;
@@ -65,28 +65,38 @@
 }
 .speisekarte-nummer,
 .speisekarte-titel {
-    font-size: 1em;
-    font-weight: bold;
+    font-size: var(--item-font-size, 1em);
+    font-weight: var(--item-font-weight, bold);
+    font-style: var(--item-font-style, normal);
+    font-family: var(--item-font-family, var(--font-family, inherit));
 }
 .speisekarte-preis {
-    font-size: 0.98em;
-    font-style: italic;
-    font-weight: bold;
+    font-size: var(--item-font-size, 0.98em);
+    font-style: var(--item-font-style, italic);
+    font-weight: var(--item-font-weight, bold);
     float: right;
+    font-family: var(--item-font-family, var(--font-family, inherit));
 }
 .speisekarte-beschreibung {
-    font-size: 0.96em;
+    font-size: var(--item-font-size, 0.96em);
     margin-left: 0.2em;
+    font-weight: var(--item-font-weight, normal);
+    font-style: var(--item-font-style, normal);
+    font-family: var(--item-font-family, var(--font-family, inherit));
 }
 .speisekarte-inhalt {
-    font-size: 0.93em;
+    font-size: var(--item-font-size, 0.93em);
     color: #888;
-    font-style: italic;
+    font-style: var(--item-font-style, italic);
     margin-left: 1.5em;
+    font-weight: var(--item-font-weight, normal);
+    font-family: var(--item-font-family, var(--font-family, inherit));
 }
 .speisekarte-inhalt-label {
-    font-size: 0.93em;
-    font-weight: bold;
+    font-size: var(--item-font-size, 0.93em);
+    font-weight: var(--item-font-weight, bold);
     color: #888;
     margin-right: 0.2em;
+    font-style: var(--item-font-style, normal);
+    font-family: var(--item-font-family, var(--font-family, inherit));
 }

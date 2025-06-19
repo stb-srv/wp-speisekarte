@@ -108,6 +108,10 @@ class Speisekarte_Plugin {
         add_option('speisekarte_item_font_color', '#000000');
         add_option('speisekarte_background_color', '#f1f1f1');
         add_option('speisekarte_active_color', '#e1e1e1');
+        add_option('speisekarte_item_font_family', '');
+        add_option('speisekarte_item_font_size', '');
+        add_option('speisekarte_item_font_weight', '');
+        add_option('speisekarte_item_font_style', '');
 
         // ensure default category exists on installation
         speisekarte_get_default_kategorie_id();
@@ -139,6 +143,18 @@ class Speisekarte_Plugin {
         }
         if (get_option('speisekarte_active_color', null) === null) {
             add_option('speisekarte_active_color', '#e1e1e1');
+        }
+        if (get_option('speisekarte_item_font_family', null) === null) {
+            add_option('speisekarte_item_font_family', '');
+        }
+        if (get_option('speisekarte_item_font_size', null) === null) {
+            add_option('speisekarte_item_font_size', '');
+        }
+        if (get_option('speisekarte_item_font_weight', null) === null) {
+            add_option('speisekarte_item_font_weight', '');
+        }
+        if (get_option('speisekarte_item_font_style', null) === null) {
+            add_option('speisekarte_item_font_style', '');
         }
 
         $table_speise = $wpdb->prefix . 'speisekarte_speisen';
@@ -182,6 +198,14 @@ class Speisekarte_Plugin {
         if ($tile_font_color) $vars .= '--tile-font-color:' . esc_attr($tile_font_color) . ';';
         $item_font_color = get_option('speisekarte_item_font_color', '#000000');
         if ($item_font_color) $vars .= '--item-font-color:' . esc_attr($item_font_color) . ';';
+        $item_font_family = trim(get_option('speisekarte_item_font_family', ''));
+        if ($item_font_family) $vars .= '--item-font-family:' . esc_attr($item_font_family) . ';';
+        $item_font_size = trim(get_option('speisekarte_item_font_size', ''));
+        if ($item_font_size) $vars .= '--item-font-size:' . esc_attr($item_font_size) . ';';
+        $item_font_weight = trim(get_option('speisekarte_item_font_weight', ''));
+        if ($item_font_weight) $vars .= '--item-font-weight:' . esc_attr($item_font_weight) . ';';
+        $item_font_style = trim(get_option('speisekarte_item_font_style', ''));
+        if ($item_font_style) $vars .= '--item-font-style:' . esc_attr($item_font_style) . ';';
         $bg = get_option('speisekarte_background_color', '#f1f1f1');
         if ($bg) $vars .= '--toggle-bg:' . esc_attr($bg) . ';';
         $active = get_option('speisekarte_active_color', '#e1e1e1');
