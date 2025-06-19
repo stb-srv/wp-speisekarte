@@ -83,6 +83,7 @@ class Speisekarte_Plugin {
         }
 
         add_option('speisekarte_columns', 1);
+        add_option('speisekarte_tile_height', 0);
     }
 
     public function maybe_upgrade() {
