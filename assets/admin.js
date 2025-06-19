@@ -1,4 +1,7 @@
 jQuery(function($){
+    if ($('.color-picker').length) {
+        $('.color-picker').wpColorPicker();
+    }
     $('.kat_edit').on('click', function(e){
         e.preventDefault();
         var row = $(this).closest('tr');
