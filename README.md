@@ -12,5 +12,5 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Export der Daten als CSV-Datei
 - Individuelle Verwaltung der Inhaltsstoffe
 - Accordion-Darstellung im Frontend
-- Einstellbare Spaltenanzahl im Frontend
+- Einstellbare Spaltenanzahl im Frontend (Kategorien und Speisen)
 - Shortcode: [speisekarte]
