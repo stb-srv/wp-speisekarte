@@ -9,6 +9,12 @@ foreach ($rows as $r) {
     $inhaltsstoff_codes[$r->code] = $r->name;
 }
 
+$columns = intval(get_option('speisekarte_columns', 1));
+if (isset($_POST['columns_save'])) {
+    $columns = max(1, min(4, intval($_POST['columns'])));
+    update_option('speisekarte_columns', $columns);
+}
+
 
 
 // Kategorie hinzufügen/bearbeiten
@@ -56,6 +62,16 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 ?>
 <div class="wrap">
     <h1>Speisekarte</h1>
+    <form method="post" style="margin-bottom:1em;" id="columns_form">
+        <label>Anzahl Spalten:
+            <select name="columns">
+                <?php for($i=1;$i<=4;$i++): ?>
+                    <option value="<?php echo $i; ?>" <?php selected($columns, $i); ?>><?php echo $i; ?></option>
+                <?php endfor; ?>
+            </select>
+        </label>
+        <button class="button" name="columns_save">Speichern</button>
+    </form>
     <h2>Speise erstellen/bearbeiten</h2>
     <form method="post" id="speise_form">
         <input type="hidden" name="speise_id" value="">

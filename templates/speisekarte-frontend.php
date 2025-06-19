@@ -2,12 +2,12 @@
 global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
-$columns = 1;
+$columns = intval(get_option('speisekarte_columns', 1));
 
 $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 if(!$kats) return;
 ?>
-<div class="speisekarte-accordion">
+<div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;">
 <?php foreach($kats as $kat): ?>
     <div class="speisekarte-kat">
         <button class="speisekarte-toggle"><?php echo esc_html($kat->name); ?></button>
