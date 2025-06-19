@@ -11,11 +11,14 @@ foreach ($rows as $r) {
 
 $columns = intval(get_option('speisekarte_columns', 1));
 $tile_height = intval(get_option('speisekarte_tile_height', 0));
+$tile_width = intval(get_option('speisekarte_tile_width', 0));
 if (isset($_POST['columns_save'])) {
     $columns = max(1, min(4, intval($_POST['columns'])));
     $tile_height = max(0, intval($_POST['tile_height']));
+    $tile_width = max(0, intval($_POST['tile_width']));
     update_option('speisekarte_columns', $columns);
     update_option('speisekarte_tile_height', $tile_height);
+    update_option('speisekarte_tile_width', $tile_width);
 }
 
 
@@ -75,6 +78,9 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         </label>
         <label style="margin-left:10px;">Kachel-Höhe (px, 0 = auto):
             <input type="number" name="tile_height" value="<?php echo esc_attr($tile_height); ?>" min="0" style="width:6em;">
+        </label>
+        <label style="margin-left:10px;">Kachel-Breite (px, 0 = auto):
+            <input type="number" name="tile_width" value="<?php echo esc_attr($tile_width); ?>" min="0" style="width:6em;">
         </label>
         <button class="button" name="columns_save">Speichern</button>
     </form>

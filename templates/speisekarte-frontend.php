@@ -4,11 +4,12 @@ $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
 $columns = intval(get_option('speisekarte_columns', 1));
 $tile_height = intval(get_option('speisekarte_tile_height', 0));
+$tile_width = intval(get_option('speisekarte_tile_width', 0));
 
 $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 if(!$kats) return;
 ?>
-<div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>">
+<div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?><?php if($tile_width) echo '--tile-width:'.$tile_width.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>" data-tile-width="<?php echo $tile_width; ?>">
 <?php foreach($kats as $kat): ?>
     <div class="speisekarte-kat">
         <button class="speisekarte-toggle"><?php echo esc_html($kat->name); ?></button>

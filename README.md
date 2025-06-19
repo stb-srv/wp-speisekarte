@@ -14,4 +14,5 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Accordion-Darstellung im Frontend
 - Einstellbare Spaltenanzahl im Frontend
 - Einheitliche Höhe der Kategorie-Header
+- Optionale Breite der Kategorie-Header
 - Shortcode: [speisekarte]
