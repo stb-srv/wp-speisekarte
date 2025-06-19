@@ -92,7 +92,7 @@ if (isset($_POST['bulk_del_speisen']) && !empty($_POST['speise_ids']) && check_a
 // Alle Kategorien laden
 $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 ?>
-<div class="wrap">
+<div class="wrap speisekarte-admin">
     <h1>Speisekarte</h1>
     <form method="post" style="margin-bottom:1em;" id="columns_form">
         <label>Anzahl Spalten:

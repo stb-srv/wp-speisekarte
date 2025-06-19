@@ -51,7 +51,7 @@ foreach ($rows as $r) {
   .speisekarte-inhalt,.speisekarte-inhalt-label{color:var(--zusatz-dunkel,#dddddd);}
 }
 </style>
-<div class="speisekarte-wrapper">
+<div class="speisekarte-wrapper speisekarte-frontend">
   <div class="speisekarte-search">
     <input type="text" id="speisekarte_search" placeholder="Suche...">
   </div>

@@ -1,0 +1,38 @@
+/* Darkmode \u00fcber Plugin-Klasse */
+body.dark-mode .speisekarte-admin,
+body.dark-mode .speisekarte-frontend,
+body.is-dark .speisekarte-admin,
+body.is-dark .speisekarte-frontend {
+  background: #222 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .speisekarte-admin input,
+body.dark-mode .speisekarte-admin textarea,
+body.dark-mode .speisekarte-admin select,
+body.dark-mode .speisekarte-admin button,
+body.is-dark .speisekarte-admin input,
+body.is-dark .speisekarte-admin textarea,
+body.is-dark .speisekarte-admin select,
+body.is-dark .speisekarte-admin button {
+  background: #333 !important;
+  color: #fff !important;
+  border-color: #555 !important;
+}
+
+/* Darkmode \u00fcber Betriebssystem/Browser */
+@media (prefers-color-scheme: dark) {
+  .speisekarte-admin,
+  .speisekarte-frontend {
+    background: #222 !important;
+    color: #fff !important;
+  }
+  .speisekarte-admin input,
+  .speisekarte-admin textarea,
+  .speisekarte-admin select,
+  .speisekarte-admin button {
+    background: #333 !important;
+    color: #fff !important;
+    border-color: #555 !important;
+  }
+}

@@ -47,7 +47,7 @@ $preis_farbe_dark     = sanitize_hex_color($_POST['preis_farbe_dark']) ?: '#FFFF
     echo '<div class="updated notice"><p>Einstellungen gespeichert.</p></div>';
 }
 ?>
-<div class="wrap">
+<div class="wrap speisekarte-admin">
     <h1>Schrift Einstellungen</h1>
     <form method="post">
         <?php wp_nonce_field('speisekarte_fonts_save'); ?>

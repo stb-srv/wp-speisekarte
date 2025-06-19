@@ -149,7 +149,7 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
     }
 }
 ?>
-<div class="wrap">
+<div class="wrap speisekarte-admin">
     <h1>Import/Export</h1>
     <?php echo $import_message; ?>
     <h2>Export</h2>
