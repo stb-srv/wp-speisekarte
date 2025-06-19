@@ -16,10 +16,11 @@ foreach($rows as $r){
     $inh_map[$r->code] = $r->name;
 }
 ?>
-<div class="speisekarte-search">
-    <input type="text" id="speisekarte_search" placeholder="Suche...">
-</div>
-<div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?><?php if($tile_width) echo '--tile-width:'.$tile_width.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>" data-tile-width="<?php echo $tile_width; ?>">
+<div class="speisekarte-wrapper">
+    <div class="speisekarte-search">
+        <input type="text" id="speisekarte_search" placeholder="Suche...">
+    </div>
+    <div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?><?php if($tile_width) echo '--tile-width:'.$tile_width.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>" data-tile-width="<?php echo $tile_width; ?>">
 <?php foreach($kats as $kat): ?>
     <div class="speisekarte-kat" data-kat="<?php echo $kat->id; ?>">
         <button class="speisekarte-toggle"><?php echo esc_html($kat->name); ?></button>
@@ -76,4 +77,5 @@ foreach($rows as $r){
         </div>
     </div>
 <?php endforeach; ?>
+    </div>
 </div>
