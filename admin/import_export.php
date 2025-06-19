@@ -21,8 +21,14 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
                 foreach ($data['kategorien'] as $kat) {
                     $name = sanitize_text_field($kat['name'] ?? '');
                     $sort = intval($kat['sort'] ?? $cat_sort++);
-                    $wpdb->insert($table_kat, ['name' => $name, 'sort' => $sort]);
-                    $cat_map[$name] = $wpdb->insert_id;
+                    $existing = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_kat WHERE name=%s", $name));
+                    if ($existing) {
+                        $cat_map[$name] = intval($existing->id);
+                        $wpdb->update($table_kat, ['sort' => $sort], ['id' => $cat_map[$name]]);
+                    } else {
+                        $wpdb->insert($table_kat, ['name' => $name, 'sort' => $sort]);
+                        $cat_map[$name] = $wpdb->insert_id;
+                    }
                     if ($sort >= $cat_sort) $cat_sort = $sort + 1;
                 }
             }
@@ -43,23 +49,44 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
             foreach ($data['speisen'] as $sp) {
                 $kat_name = sanitize_text_field($sp['kategorie'] ?? '');
                 if (!isset($cat_map[$kat_name])) {
-                    $wpdb->insert($table_kat, ['name' => $kat_name, 'sort' => $cat_sort++]);
-                    $cat_map[$kat_name] = $wpdb->insert_id;
+                    $existing_kat = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_kat WHERE name=%s", $kat_name));
+                    if ($existing_kat) {
+                        $cat_map[$kat_name] = intval($existing_kat->id);
+                        $wpdb->update($table_kat, ['sort' => $cat_sort], ['id' => $cat_map[$kat_name]]);
+                    } else {
+                        $wpdb->insert($table_kat, ['name' => $kat_name, 'sort' => $cat_sort]);
+                        $cat_map[$kat_name] = $wpdb->insert_id;
+                    }
                     $sort_map[$kat_name] = 0;
+                    $cat_sort++;
                 }
                 if (!isset($sort_map[$kat_name])) $sort_map[$kat_name] = 0;
                 $sort = isset($sp['sort']) ? intval($sp['sort']) : $sort_map[$kat_name];
                 $sort_map[$kat_name] = $sort + 1;
-                $wpdb->insert($table_speise, [
-                    'nr'           => sanitize_text_field($sp['nr'] ?? ''),
-                    'name'         => sanitize_text_field($sp['name'] ?? ''),
+                $nr   = sanitize_text_field($sp['nr'] ?? '');
+                $name = sanitize_text_field($sp['name'] ?? '');
+                $data = [
+                    'nr'           => $nr,
+                    'name'         => $name,
                     'beschreibung' => sanitize_text_field($sp['beschreibung'] ?? ''),
                     'inhaltsstoffe'=> sanitize_text_field($sp['inhaltsstoffe'] ?? ''),
                     'preis'        => floatval(str_replace(',', '.', $sp['preis'] ?? 0)),
                     'bild_id'      => intval($sp['bild_id'] ?? 0),
                     'kategorie_id' => $cat_map[$kat_name],
                     'sort'         => $sort,
-                ]);
+                ];
+                $existing = null;
+                if ($nr !== '') {
+                    $existing = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_speise WHERE kategorie_id=%d AND nr=%s", $cat_map[$kat_name], $nr));
+                }
+                if (!$existing) {
+                    $existing = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_speise WHERE kategorie_id=%d AND name=%s", $cat_map[$kat_name], $name));
+                }
+                if ($existing) {
+                    $wpdb->update($table_speise, $data, ['id' => intval($existing->id)]);
+                } else {
+                    $wpdb->insert($table_speise, $data);
+                }
             }
             $import_message = '<div class="updated notice"><p>Import erfolgreich.</p></div>';
         } else {
@@ -76,21 +103,42 @@ if (isset($_POST['speisekarte_import']) && check_admin_referer('speisekarte_impo
                     list($kat_name, $nr, $name, $beschr, $inh, $preis, $bild) = $row;
                     $kat_name = sanitize_text_field($kat_name);
                     if (!isset($cat_map[$kat_name])) {
-                        $wpdb->insert($table_kat, ['name' => $kat_name, 'sort' => $cat_sort++]);
-                        $cat_map[$kat_name] = $wpdb->insert_id;
+                        $existing_kat = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_kat WHERE name=%s", $kat_name));
+                        if ($existing_kat) {
+                            $cat_map[$kat_name] = intval($existing_kat->id);
+                            $wpdb->update($table_kat, ['sort' => $cat_sort], ['id' => $cat_map[$kat_name]]);
+                        } else {
+                            $wpdb->insert($table_kat, ['name' => $kat_name, 'sort' => $cat_sort]);
+                            $cat_map[$kat_name] = $wpdb->insert_id;
+                        }
                         $sort_map[$kat_name] = 0;
+                        $cat_sort++;
                     }
                     $sort = $sort_map[$kat_name]++;
-                    $wpdb->insert($table_speise, [
-                        'nr'           => sanitize_text_field($nr),
-                        'name'         => sanitize_text_field($name),
+                    $nr   = sanitize_text_field($nr);
+                    $name = sanitize_text_field($name);
+                    $data = [
+                        'nr'           => $nr,
+                        'name'         => $name,
                         'beschreibung' => sanitize_text_field($beschr),
                         'inhaltsstoffe'=> sanitize_text_field($inh),
                         'preis'        => floatval(str_replace(',', '.', $preis)),
                         'bild_id'      => intval($bild),
                         'kategorie_id' => $cat_map[$kat_name],
                         'sort'         => $sort,
-                    ]);
+                    ];
+                    $existing = null;
+                    if ($nr !== '') {
+                        $existing = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_speise WHERE kategorie_id=%d AND nr=%s", $cat_map[$kat_name], $nr));
+                    }
+                    if (!$existing) {
+                        $existing = $wpdb->get_row($wpdb->prepare("SELECT id FROM $table_speise WHERE kategorie_id=%d AND name=%s", $cat_map[$kat_name], $name));
+                    }
+                    if ($existing) {
+                        $wpdb->update($table_speise, $data, ['id' => intval($existing->id)]);
+                    } else {
+                        $wpdb->insert($table_speise, $data);
+                    }
                 }
                 fclose($handle);
                 $import_message = '<div class="updated notice"><p>Import erfolgreich.</p></div>';
