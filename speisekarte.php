@@ -82,7 +82,7 @@ class Speisekarte_Plugin {
             }
         }
 
-        add_option('speisekarte_columns', 2);
+        add_option('speisekarte_columns', 1);
     }
 
     public function maybe_upgrade() {

@@ -2,13 +2,12 @@
 global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
-$columns = intval(get_option('speisekarte_columns', 2));
-if($columns < 1) $columns = 1;
+$columns = 1;
 
 $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 if(!$kats) return;
 ?>
-<div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;">
+<div class="speisekarte-accordion">
 <?php foreach($kats as $kat): ?>
     <div class="speisekarte-kat">
         <button class="speisekarte-toggle"><?php echo esc_html($kat->name); ?></button>
@@ -19,7 +18,7 @@ if(!$kats) return;
                 $kat->id
             ));
             if($speisen): ?>
-            <div class="speisekarte-grid" style="grid-template-columns: repeat(<?php echo $columns; ?>, 1fr);">
+            <div class="speisekarte-grid">
                 <?php foreach($speisen as $sp): ?>
                     <div class="speisekarte-item">
                         <div class="nr"><?php echo esc_html($sp->nr); ?></div>
