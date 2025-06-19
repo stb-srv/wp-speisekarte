@@ -24,31 +24,31 @@ foreach ($rows as $r) {
 }
 ?>
 <style>
-.speisekarte-wrapper{max-width:900px;margin:0 auto;padding:1rem;font-family:var(--font-family,Arial,sans-serif);color:var(--font-color,#000);}
+.speisekarte-wrapper{max-width:900px;margin:0 auto;padding:1rem;font-family:var(--font-family,Arial,sans-serif);color:var(--zusatz-weiss,#000);}
 .speisekarte-search input{width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:0.25rem;margin-bottom:1rem;}
 .speisekarte-hint{margin-bottom:0.5rem;font-size:0.9rem;}
 .toggle-all{margin-bottom:1rem;background:#eee;border:1px solid #ccc;border-radius:0.25rem;padding:0.5rem 1rem;cursor:pointer;}
 .speisekarte-grid{display:grid;grid-template-columns:repeat(<?php echo $columns; ?>,1fr);gap:2rem;}
 @media(max-width:600px){.speisekarte-grid{grid-template-columns:1fr;}}
 .speisekarte-kategorie{border:1px solid #ddd;border-radius:0.5rem;padding:1rem;background:var(--toggle-bg,#f1f1f1);}
-.kategorie-header{padding:0.75rem;background:var(--toggle-bg,#f1f1f1);color:var(--tile-font-color,#333);cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
+.kategorie-header{padding:0.75rem;background:var(--toggle-bg,#f1f1f1);color:var(--kategorie-weiss,#333);cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
 .kategorie-header.open{background:var(--toggle-active-bg,#e1e1e1);}
 .kategorie-header .toggle-icon{margin-right:0.5rem;font-size:1.1rem;font-weight:bold;}
 .kategorie-content{display:none;padding:1rem;}
 .speisekarte-liste{font-size:0.98em;padding-left:1.1em;}
 .speisekarte-liste li{margin-bottom:0.5em;line-height:1.3;}
-.speisekarte-nummer,.speisekarte-titel{font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,bold);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));color:var(--item-font-color,var(--font-color,inherit));}
-.speisekarte-preis{font-size:var(--item-font-size,0.98em);font-style:var(--item-font-style,italic);font-weight:var(--item-font-weight,bold);float:right;font-family:var(--item-font-family,var(--font-family,inherit));color:var(--item-font-color,var(--font-color,inherit));}
-.speisekarte-beschreibung{font-size:var(--item-font-size,0.96em);margin-left:0.2em;font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));color:var(--item-font-color,var(--font-color,inherit));}
-.speisekarte-inhalt{font-size:var(--item-font-size,0.93em);color:var(--item-font-color,#888);font-style:var(--item-font-style,italic);margin-left:1.5em;font-weight:var(--item-font-weight,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
-.speisekarte-inhalt-label{font-size:var(--item-font-size,0.93em);font-weight:var(--item-font-weight,bold);color:var(--item-font-color,#888);margin-right:0.2em;font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-nummer,.speisekarte-titel{font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,bold);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));}
+.speisekarte-preis{font-size:var(--item-font-size,0.98em);font-style:var(--item-font-style,italic);font-weight:var(--item-font-weight,bold);float:right;font-family:var(--item-font-family,var(--font-family,inherit));color:var(--preis-weiss,var(--speisen-weiss,inherit));}
+.speisekarte-beschreibung{font-size:var(--item-font-size,0.96em);margin-left:0.2em;font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));}
+.speisekarte-inhalt{font-size:var(--item-font-size,0.93em);color:var(--zusatz-weiss,#888);font-style:var(--item-font-style,italic);margin-left:1.5em;font-weight:var(--item-font-weight,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-inhalt-label{font-size:var(--item-font-size,0.93em);font-weight:var(--item-font-weight,bold);color:var(--zusatz-weiss,#888);margin-right:0.2em;font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
 @media (prefers-color-scheme: dark){
   .speisekarte-kategorie{background:var(--toggle-bg,#1b3b6f);}
-  .kategorie-header{background:var(--toggle-bg,#1b3b6f);color:var(--tile-font-color,#ffd700);}
+  .kategorie-header{background:var(--toggle-bg,#1b3b6f);color:var(--kategorie-dunkel,#ffd700);}
   .kategorie-header.open{background:var(--toggle-active-bg,#1e447c);}
-  .kategorie-content,.speisekarte-nummer,.speisekarte-titel,.speisekarte-beschreibung{color:var(--item-font-color,#fff);}
-  .speisekarte-preis{color:var(--tile-font-color,#ffd700);}
-  .speisekarte-inhalt,.speisekarte-inhalt-label{color:var(--font-color,#dddddd);}
+  .kategorie-content,.speisekarte-nummer,.speisekarte-titel,.speisekarte-beschreibung{color:var(--speisen-dunkel,#fff);}
+  .speisekarte-preis{color:var(--preis-dunkel,#ffd700);}
+  .speisekarte-inhalt,.speisekarte-inhalt-label{color:var(--zusatz-dunkel,#dddddd);}
 }
 </style>
 <div class="speisekarte-wrapper">

@@ -21,7 +21,7 @@
     color:inherit;
 }
 .speisekarte-toggle.active{background:transparent;color:inherit;}
-.speisekarte-item{display:grid;grid-template-columns:40px 1fr auto;align-items:start;column-gap:10px;font-family:var(--item-font-family,var(--font-family,inherit));color:var(--item-font-color,var(--font-color,inherit));font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);}
+.speisekarte-item{display:grid;grid-template-columns:40px 1fr auto;align-items:start;column-gap:10px;font-family:var(--item-font-family,var(--font-family,inherit));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);}
 .speisekarte-kat{
     margin-bottom:0;
     background:#d9d9d9;
