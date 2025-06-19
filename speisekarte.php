@@ -228,6 +228,7 @@ class Speisekarte_Plugin {
     public function admin_assets($hook) {
         if (strpos($hook, 'speisekarte') !== false) {
             wp_enqueue_style('speisekarte-admin', plugin_dir_url(__FILE__).'assets/admin.css');
+            wp_enqueue_style('speisekarte-darkmode', plugin_dir_url(__FILE__).'assets/speisekarte-darkmode.css');
             wp_enqueue_script('speisekarte-admin', plugin_dir_url(__FILE__).'assets/admin.js', ['jquery', 'jquery-ui-sortable'], '1.0', true);
             wp_localize_script('speisekarte-admin', 'speisekarteAjax', [
                 'ajax_url' => admin_url('admin-ajax.php'),
@@ -243,6 +244,7 @@ class Speisekarte_Plugin {
 
     public function frontend_assets() {
         wp_enqueue_style('speisekarte-frontend', plugin_dir_url(__FILE__).'assets/frontend.css');
+        wp_enqueue_style('speisekarte-darkmode', plugin_dir_url(__FILE__).'assets/speisekarte-darkmode.css');
         $vars = '';
         $font = trim(get_option('speisekarte_font_family', ''));
         if ($font) $vars .= '--font-family:' . esc_attr($font) . ';';

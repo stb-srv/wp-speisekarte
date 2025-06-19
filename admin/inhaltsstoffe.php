@@ -25,7 +25,7 @@ if (isset($_POST['bulk_del_inh']) && !empty($_POST['inh_ids']) && check_admin_re
 
 $codes = $wpdb->get_results("SELECT * FROM $table_inh ORDER BY code");
 ?>
-<div class="wrap">
+<div class="wrap speisekarte-admin">
     <h1>Inhaltsstoffe</h1>
     <form method="post" id="inh_form" style="margin-bottom:2em;">
         <input type="hidden" name="inh_id" value="">

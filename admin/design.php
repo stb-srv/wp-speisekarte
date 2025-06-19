@@ -17,7 +17,7 @@ if (isset($_POST['design_save'])) {
     echo '<div class="updated notice"><p>Einstellungen gespeichert.</p></div>';
 }
 ?>
-<div class="wrap">
+<div class="wrap speisekarte-admin">
     <h1>Design Einstellungen</h1>
     <form method="post">
         <?php wp_nonce_field('speisekarte_design_save'); ?>
