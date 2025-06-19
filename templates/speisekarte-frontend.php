@@ -19,7 +19,7 @@ if(!$kats) return;
                 $kat->id
             ));
             if($speisen): ?>
-            <div class="speisekarte-grid">
+            <div class="speisekarte-grid" style="grid-template-columns: repeat(<?php echo $columns; ?>, 1fr);">
                 <?php foreach($speisen as $sp): ?>
                     <div class="speisekarte-item">
                         <div class="nr"><?php echo esc_html($sp->nr); ?></div>
