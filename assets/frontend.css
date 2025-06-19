@@ -1,5 +1,19 @@
 .speisekarte-accordion .speisekarte-content { display:none; padding:0.5em 1em; }
-.speisekarte-toggle { width: var(--tile-width, 100%); text-align:left; font-size:1.2em; padding:0.7em; background: var(--toggle-bg, #f1f1f1); border:none; cursor:pointer; display:flex; align-items:center; min-height: var(--tile-height, auto); font-family: var(--font-family, inherit); color: var(--tile-font-color, var(--font-color, inherit)); }
+.speisekarte-toggle {
+    width: auto;
+    min-width: var(--tile-width, 100%);
+    text-align:left;
+    font-size:1.2em;
+    padding:0.7em;
+    background: var(--toggle-bg, #f1f1f1);
+    border:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    min-height: var(--tile-height, auto);
+    font-family: var(--font-family, inherit);
+    color: var(--tile-font-color, var(--font-color, inherit));
+}
 .speisekarte-toggle.active { background: var(--toggle-active-bg, #e1e1e1); color: var(--tile-font-color, var(--font-color, inherit)); }
 .speisekarte-item { display:grid; grid-template-columns:40px 1fr auto; align-items:start; column-gap:10px; font-family: var(--font-family, inherit); color: var(--item-font-color, var(--font-color, inherit)); font-size:1em; }
 .speisekarte-kat { margin-bottom:0; border:1px solid #ddd; border-radius:6px; overflow:hidden; }
