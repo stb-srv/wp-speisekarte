@@ -31,6 +31,7 @@ if(!$kats) return;
                                 <small class="inh"><?php echo esc_html($sp->inhaltsstoffe); ?></small>
                             <?php endif; ?>
                         </div>
+                        <div class="preis"><?php echo number_format($sp->preis, 2, ',', '.'); ?> €</div>
                         <div class="bild">
                         <?php if($sp->bild_id):
                             $url = wp_get_attachment_url($sp->bild_id);

@@ -47,6 +47,7 @@ if (isset($_POST['speise_save'])) {
         'name' => sanitize_text_field($_POST['name']),
         'beschreibung' => sanitize_text_field($_POST['beschreibung']),
         'inhaltsstoffe' => implode(',', $inh),
+        'preis' => floatval(str_replace(',', '.', $_POST['preis'])),
         'bild_id' => intval($_POST['bild_id']),
         'kategorie_id' => intval($_POST['kategorie_id'])
     ];
@@ -96,6 +97,7 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <input type="text" name="nr" placeholder="Nr" style="width:5em;">
         <input type="text" name="name" placeholder="Name" required>
         <input type="text" name="beschreibung" placeholder="Beschreibung">
+        <input type="text" name="preis" placeholder="Preis (€)" style="width:7em;">
         <div class="inh-select">
             <input type="text" id="inh_filter" placeholder="Inhaltsstoffe filtern">
             <select id="inh_dropdown">
@@ -157,8 +159,9 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
                 data-name="<?php echo esc_attr($s->name); ?>"
                 data-beschreibung="<?php echo esc_attr($s->beschreibung); ?>"
                 data-inhaltsstoffe="<?php echo esc_attr($s->inhaltsstoffe); ?>"
+                data-preis="<?php echo esc_attr($s->preis); ?>"
                 data-bild="<?php echo esc_attr($s->bild_id); ?>">
-                <b><?php echo esc_html($s->nr); ?> <?php echo esc_html($s->name); ?></b>
+                <b><?php echo esc_html($s->nr); ?> <?php echo esc_html($s->name); ?> - <?php echo number_format($s->preis, 2, ',', '.'); ?> €</b>
                 <?php if($s->bild_id) { $url = wp_get_attachment_url($s->bild_id); echo '<img src="'.esc_url($url).'" style="height:32px;vertical-align:middle;">'; } ?>
                 <small><?php echo esc_html($s->beschreibung); ?></small>
                 <a href="#" class="speise_edit">Bearbeiten</a> |
