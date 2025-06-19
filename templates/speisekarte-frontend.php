@@ -19,14 +19,16 @@ foreach ($rows as $r) {
 <style>
 .speisekarte-wrapper{max-width:900px;margin:0 auto;padding:1rem;font-family:Arial,sans-serif;}
 .speisekarte-search input{width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:0.25rem;margin-bottom:1rem;}
-.speisekarte-grid{display:grid;grid-template-columns:repeat(<?php echo $columns; ?>,1fr);gap:1rem;}
+.speisekarte-grid{display:grid;grid-template-columns:repeat(<?php echo $columns; ?>,1fr);gap:2rem;}
 @media(max-width:600px){.speisekarte-grid{grid-template-columns:1fr;}}
-.speisekarte-kategorie{border:1px solid #ddd;border-radius:0.5rem;}
+.speisekarte-kategorie{border:1px solid #ddd;border-radius:0.5rem;padding:1rem;}
 .kategorie-header{padding:0.75rem;background:#f7f7f7;color:#333;cursor:pointer;font-weight:normal;font-size:1rem;}
-.kategorie-content{display:none;padding:0.75rem;}
-.speise{padding:0.5rem 0;border-bottom:1px solid #eee;}
-.speise:last-child{border-bottom:none;}
-.speise .title{display:flex;justify-content:space-between;font-weight:bold;}
+.kategorie-content{display:none;padding:1rem;}
+.speise{padding:1rem 0;border-bottom:1px solid #eee;margin-bottom:1rem;}
+.speise:last-child{border-bottom:none;margin-bottom:0;}
+.speise .title{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;font-weight:normal;}
+.speise .preis{margin-left:1rem;white-space:nowrap;}
+@media(max-width:600px){.speise .preis{width:100%;margin-left:0;text-align:right;margin-top:0.25rem;}}
 .speise .desc{margin-top:0.25rem;font-size:0.9em;}
 .speise .inh{display:block;margin-top:0.25rem;font-size:0.8em;font-style:italic;}
 </style>
