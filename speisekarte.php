@@ -2,7 +2,7 @@
 /**
  * Plugin Name: wp-speisekarte-stb-srv
  * Description: Zeigt eine Speisekarte als Accordion an, Kategorien und Speisen im Adminbereich verwalten, Sortierung per Drag & Drop, Bild-Upload pro Speise.
- * Version: 1.8.1
+ * Version: 1.9.0
  * Author: stb-srv
  * Text Domain: speisekarte
  */
@@ -202,36 +202,54 @@ class Speisekarte_Plugin {
         global $wpdb;
         $table_kat    = $wpdb->prefix . 'speisekarte_kategorien';
         $table_speise = $wpdb->prefix . 'speisekarte_speisen';
+        $table_inh    = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
         $upload       = wp_upload_dir();
         $export_dir   = trailingslashit($upload['basedir']) . 'speisekarte_exports';
         wp_mkdir_p($export_dir);
 
         if (isset($_GET['export']) && check_admin_referer('speisekarte_export')) {
-            $filename = 'speisekarte_export_' . date('Ymd_His') . '.csv';
+            $filename = 'speisekarte_export_' . date('Ymd_His') . '.json';
             $filepath = trailingslashit($export_dir) . $filename;
-            $output = fopen($filepath, 'w');
-            if ($output) {
-                fputcsv($output, ['Kategorie', 'Nr', 'Name', 'Beschreibung', 'Inhaltsstoffe', 'Preis', 'BildID'], ';');
-                $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
-                foreach ($kats as $kat) {
-                    $speisen = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
-                    foreach ($speisen as $sp) {
-                        fputcsv($output, [
-                            $kat['name'],
-                            $sp['nr'],
-                            $sp['name'],
-                            $sp['beschreibung'],
-                            $sp['inhaltsstoffe'],
-                            $sp['preis'],
-                            $sp['bild_id'],
-                        ], ';');
-                    }
+
+            $data = [
+                'kategorien'     => [],
+                'inhaltsstoffe' => [],
+                'speisen'        => [],
+            ];
+
+            $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name", ARRAY_A);
+            foreach ($kats as $kat) {
+                $data['kategorien'][] = [
+                    'name' => $kat['name'],
+                    'sort' => intval($kat['sort']),
+                ];
+                $speisen = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_speise WHERE kategorie_id=%d ORDER BY sort, nr", $kat['id']), ARRAY_A);
+                foreach ($speisen as $sp) {
+                    $data['speisen'][] = [
+                        'kategorie'      => $kat['name'],
+                        'nr'            => $sp['nr'],
+                        'name'          => $sp['name'],
+                        'beschreibung'  => $sp['beschreibung'],
+                        'inhaltsstoffe' => $sp['inhaltsstoffe'],
+                        'preis'         => $sp['preis'],
+                        'bild_id'       => $sp['bild_id'],
+                        'sort'          => intval($sp['sort']),
+                    ];
                 }
-                fclose($output);
-                header('Content-Type: text/csv; charset=utf-8');
-                header('Content-Disposition: attachment; filename="' . $filename . '"');
-                readfile($filepath);
             }
+
+            $inhalte = $wpdb->get_results("SELECT code, name FROM $table_inh ORDER BY code", ARRAY_A);
+            foreach ($inhalte as $i) {
+                $data['inhaltsstoffe'][] = [
+                    'code' => $i['code'],
+                    'name' => $i['name'],
+                ];
+            }
+
+            file_put_contents($filepath, json_encode($data));
+            header('Content-Type: application/json; charset=utf-8');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            readfile($filepath);
             exit;
         }
 
@@ -239,7 +257,12 @@ class Speisekarte_Plugin {
             $file = basename($_GET['download']);
             $filepath = trailingslashit($export_dir) . $file;
             if (file_exists($filepath)) {
-                header('Content-Type: text/csv; charset=utf-8');
+                $ext = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
+                if ($ext === 'json') {
+                    header('Content-Type: application/json; charset=utf-8');
+                } else {
+                    header('Content-Type: text/csv; charset=utf-8');
+                }
                 header('Content-Disposition: attachment; filename="' . $file . '"');
                 readfile($filepath);
             }
