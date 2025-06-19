@@ -23,7 +23,10 @@ jQuery(function($){
         var query = $('#speisekarte_search').val().toLowerCase();
         $('.speisekarte-kat').each(function(){
             var block = $(this);
+            var toggle = block.find('.speisekarte-toggle');
+            var content = block.find('.speisekarte-content');
             var anyVisible = false;
+
             block.find('.speisekarte-item').each(function(){
                 var item = $(this);
                 var text = (
@@ -36,10 +39,20 @@ jQuery(function($){
                 item.toggle(match);
                 if(match) anyVisible = true;
             });
+
             if(query){
                 block.toggle(anyVisible);
+                if(anyVisible){
+                    if(!toggle.hasClass('active')) toggle.addClass('active');
+                    content.show();
+                } else {
+                    toggle.removeClass('active');
+                    content.hide();
+                }
             } else {
                 block.show();
+                toggle.removeClass('active');
+                content.hide();
             }
         });
     }
