@@ -30,8 +30,8 @@ foreach ($rows as $r) {
 .toggle-all{margin-bottom:1rem;background:#eee;border:1px solid #ccc;border-radius:0.25rem;padding:0.5rem 1rem;cursor:pointer;}
 .speisekarte-grid{display:grid;grid-template-columns:repeat(<?php echo $columns; ?>,1fr);gap:2rem;}
 @media(max-width:600px){.speisekarte-grid{grid-template-columns:1fr;}}
-.speisekarte-kategorie{border:1px solid #ddd;border-radius:0.5rem;padding:1rem;}
-.kategorie-header{padding:0.75rem;background:var(--toggle-bg,#f7f7f7);color:var(--tile-font-color,#333);cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
+.speisekarte-kategorie{border:1px solid #ddd;border-radius:0.5rem;padding:1rem;background:var(--toggle-bg,#f1f1f1);}
+.kategorie-header{padding:0.75rem;background:var(--toggle-bg,#f1f1f1);color:var(--tile-font-color,#333);cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
 .kategorie-header.open{background:var(--toggle-active-bg,#e1e1e1);}
 .kategorie-header .toggle-icon{margin-right:0.5rem;font-size:1.1rem;font-weight:bold;}
 .kategorie-content{display:none;padding:1rem;}
