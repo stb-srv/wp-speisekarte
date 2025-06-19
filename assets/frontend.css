@@ -100,3 +100,29 @@
     font-style: var(--item-font-style, normal);
     font-family: var(--item-font-family, var(--font-family, inherit));
 }
+
+@media (prefers-color-scheme: dark) {
+    .speisekarte-kategorie {
+        background: var(--toggle-bg, #1b3b6f);
+    }
+    .kategorie-header {
+        background: var(--toggle-bg, #1b3b6f);
+        color: var(--kategorie-dunkel, #ffd700);
+    }
+    .kategorie-header.open {
+        background: var(--toggle-active-bg, #1e447c);
+    }
+    .kategorie-content,
+    .speisekarte-nummer,
+    .speisekarte-titel,
+    .speisekarte-beschreibung {
+        color: var(--speisen-dunkel, #fff);
+    }
+    .speisekarte-preis {
+        color: var(--preis-dunkel, #ffd700);
+    }
+    .speisekarte-inhalt,
+    .speisekarte-inhalt-label {
+        color: var(--zusatz-dunkel, #dddddd);
+    }
+}
