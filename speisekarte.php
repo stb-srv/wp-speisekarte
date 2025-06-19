@@ -86,6 +86,7 @@ class Speisekarte_Plugin {
         add_option('speisekarte_tile_height', 0);
         add_option('speisekarte_tile_width', 0);
         add_option('speisekarte_font_family', '');
+        add_option('speisekarte_font_color', '#000000');
         add_option('speisekarte_background_color', '#f1f1f1');
         add_option('speisekarte_active_color', '#e1e1e1');
     }
@@ -101,6 +102,9 @@ class Speisekarte_Plugin {
         }
         if (get_option('speisekarte_font_family', null) === null) {
             add_option('speisekarte_font_family', '');
+        }
+        if (get_option('speisekarte_font_color', null) === null) {
+            add_option('speisekarte_font_color', '#000000');
         }
         if (get_option('speisekarte_background_color', null) === null) {
             add_option('speisekarte_background_color', '#f1f1f1');
@@ -138,6 +142,8 @@ class Speisekarte_Plugin {
         $vars = '';
         $font = trim(get_option('speisekarte_font_family', ''));
         if ($font) $vars .= '--font-family:' . esc_attr($font) . ';';
+        $font_color = get_option('speisekarte_font_color', '#000000');
+        if ($font_color) $vars .= '--font-color:' . esc_attr($font_color) . ';';
         $bg = get_option('speisekarte_background_color', '#f1f1f1');
         if ($bg) $vars .= '--toggle-bg:' . esc_attr($bg) . ';';
         $active = get_option('speisekarte_active_color', '#e1e1e1');
