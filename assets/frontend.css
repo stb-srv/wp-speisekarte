@@ -1,7 +1,6 @@
 .speisekarte-accordion .speisekarte-content { display:none; padding:0.5em 1em; }
 .speisekarte-toggle {
-    width: auto;
-    min-width: var(--tile-width, 100%);
+    width: var(--tile-width, 100%);
     text-align:left;
     font-size:1.2em;
     padding:0.7em;
