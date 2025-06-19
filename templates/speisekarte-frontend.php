@@ -27,13 +27,13 @@ foreach ($rows as $r) {
 .kategorie-header{padding:0.75rem;background:#f7f7f7;color:#333;cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
 .kategorie-header .toggle-icon{margin-right:0.5rem;font-size:1.1rem;font-weight:bold;}
 .kategorie-content{display:none;padding:1rem;}
-.speisekarte-liste{padding-left:1.2em;margin:1em 0;}
-.speisekarte-liste li{margin-bottom:1em;line-height:1.4;}
-.speisekarte-nummer,.speisekarte-titel{font-weight:bold;}
-.speisekarte-preis{font-style:italic;font-weight:bold;float:right;}
-.speisekarte-beschreibung{display:block;margin-left:0.3em;}
-.speisekarte-inhalt{font-size:0.92em;color:#888;font-style:italic;margin-left:1.5em;}
-.speisekarte-inhalt-label{font-weight:bold;font-style:normal;color:#888;margin-right:0.2em;}
+.speisekarte-liste{font-size:0.98em;padding-left:1.1em;}
+.speisekarte-liste li{margin-bottom:0.5em;line-height:1.3;}
+.speisekarte-nummer,.speisekarte-titel{font-size:1em;font-weight:bold;}
+.speisekarte-preis{font-size:0.98em;font-style:italic;font-weight:bold;float:right;}
+.speisekarte-beschreibung{font-size:0.96em;margin-left:0.2em;}
+.speisekarte-inhalt{font-size:0.93em;color:#888;font-style:italic;margin-left:1.5em;}
+.speisekarte-inhalt-label{font-size:0.93em;font-weight:bold;color:#888;margin-right:0.2em;}
 </style>
 <div class="speisekarte-wrapper">
   <div class="speisekarte-search">
