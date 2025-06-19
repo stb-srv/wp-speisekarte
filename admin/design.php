@@ -21,6 +21,7 @@ if (isset($_POST['design_save'])) {
     <h1>Design Einstellungen</h1>
     <form method="post">
         <?php wp_nonce_field('speisekarte_design_save'); ?>
+        <h2>White Mode</h2>
         <table class="form-table" role="presentation">
             <tr>
                 <th scope="row"><label for="bg_color">Kachel-Hintergrund</label></th>
@@ -30,12 +31,15 @@ if (isset($_POST['design_save'])) {
                 <th scope="row"><label for="active_color">Aktive Kachel</label></th>
                 <td><input type="text" id="active_color" name="active_color" value="<?php echo esc_attr($active_color); ?>" class="color-picker" data-default-color="#e1e1e1"></td>
             </tr>
+        </table>
+        <h2>Dark Mode</h2>
+        <table class="form-table" role="presentation">
             <tr>
-                <th scope="row"><label for="bg_color_dark">Kachel-Hintergrund (Dark Mode)</label></th>
+                <th scope="row"><label for="bg_color_dark">Kachel-Hintergrund</label></th>
                 <td><input type="text" id="bg_color_dark" name="bg_color_dark" value="<?php echo esc_attr($bg_color_dark); ?>" class="color-picker" data-default-color="#1b3b6f"></td>
             </tr>
             <tr>
-                <th scope="row"><label for="active_color_dark">Aktive Kachel (Dark Mode)</label></th>
+                <th scope="row"><label for="active_color_dark">Aktive Kachel</label></th>
                 <td><input type="text" id="active_color_dark" name="active_color_dark" value="<?php echo esc_attr($active_color_dark); ?>" class="color-picker" data-default-color="#1e447c"></td>
             </tr>
         </table>
