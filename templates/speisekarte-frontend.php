@@ -27,14 +27,13 @@ foreach ($rows as $r) {
 .kategorie-header{padding:0.75rem;background:#f7f7f7;color:#333;cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
 .kategorie-header .toggle-icon{margin-right:0.5rem;font-size:1.1rem;font-weight:bold;}
 .kategorie-content{display:none;padding:1rem;}
-.speise{padding:1rem 0;border-bottom:1px solid #eee;margin-bottom:1rem;}
-.speise:last-child{border-bottom:none;margin-bottom:0;}
-.speise .title{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;font-weight:normal;}
-.speise .name{font-size:1rem;font-weight:500;}
-.speise .preis{margin-left:1rem;white-space:nowrap;}
-@media(max-width:600px){.speise .preis{width:100%;margin-left:0;text-align:right;margin-top:0.25rem;}}
-.speise .desc{margin-top:0.25rem;font-size:0.9em;}
-.speise .inh{display:block;margin-top:0.25rem;font-size:0.8em;font-style:italic;}
+.speisekarte-liste{padding-left:1.2em;margin:1em 0;}
+.speisekarte-liste li{margin-bottom:1em;line-height:1.4;}
+.speisekarte-nummer,.speisekarte-titel{font-weight:bold;}
+.speisekarte-preis{font-style:italic;font-weight:bold;float:right;}
+.speisekarte-beschreibung{display:block;margin-left:0.3em;}
+.speisekarte-inhalt{font-size:0.92em;color:#888;font-style:italic;margin-left:1.5em;}
+.speisekarte-inhalt-label{font-weight:bold;font-style:normal;color:#888;margin-right:0.2em;}
 </style>
 <div class="speisekarte-wrapper">
   <div class="speisekarte-search">
@@ -53,6 +52,7 @@ foreach ($rows as $r) {
             $kat->id
         ));
         if ($speisen) :
+            echo '<ul class="speisekarte-liste">';
             foreach ($speisen as $sp) :
                 $inh_display = '';
                 if ($sp->inhaltsstoffe) {
@@ -64,20 +64,20 @@ foreach ($rows as $r) {
                     $inh_display = implode(',', $names);
                 }
 ?>
-        <div class="speise" data-nr="<?php echo esc_attr($sp->nr); ?>" data-name="<?php echo esc_attr($sp->name); ?>" data-beschreibung="<?php echo esc_attr($sp->beschreibung); ?>" data-inhaltsstoffe="<?php echo esc_attr($sp->inhaltsstoffe); ?>">
-          <div class="title">
-            <span class="name"><?php echo esc_html($sp->name); ?></span>
-            <span class="preis"><?php echo number_format($sp->preis, 2, ',', '.'); ?> €</span>
-          </div>
+        <li class="speise" data-nr="<?php echo esc_attr($sp->nr); ?>" data-name="<?php echo esc_attr($sp->name); ?>" data-beschreibung="<?php echo esc_attr($sp->beschreibung); ?>" data-inhaltsstoffe="<?php echo esc_attr($sp->inhaltsstoffe); ?>">
+          <span class="speisekarte-nummer"><?php echo esc_html($sp->nr); ?></span>
+          <span class="speisekarte-titel"><?php echo esc_html($sp->name); ?></span>
+          <span class="speisekarte-preis">— <?php echo number_format($sp->preis, 2, ',', '.'); ?> €</span>
           <?php if ($sp->beschreibung) : ?>
-          <div class="desc"><?php echo esc_html($sp->beschreibung); ?></div>
+          <div class="speisekarte-beschreibung"><?php echo esc_html($sp->beschreibung); ?></div>
           <?php endif; ?>
           <?php if ($inh_display) : ?>
-          <small class="inh"><?php echo esc_html($inh_display); ?></small>
+          <div class="speisekarte-inhalt"><span class="speisekarte-inhalt-label">Inhaltsstoffe:</span> <?php echo esc_html($inh_display); ?></div>
           <?php endif; ?>
-        </div>
+        </li>
 <?php
             endforeach;
+            echo '</ul>';
         else :
 ?>
         <em>Keine Speisen in dieser Kategorie.</em>
