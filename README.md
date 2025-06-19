@@ -20,5 +20,6 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Separate Farbangaben f\u00fcr White- und Dark&nbsp;Mode
 - Optimiert f\u00fcr Dark&nbsp;Mode mit angepassten Standardfarben
 - Verbesserte Unterst\u00fctzung f\u00fcr eigene Farbwerte im Dark&nbsp;Mode
+- Eigene Schriftfarbe f\u00fcr Light- und Dark&nbsp;Mode
 - Preisangabe f\u00fcr jede Speise
 - Shortcode: [speisekarte]

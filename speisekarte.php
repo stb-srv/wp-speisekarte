@@ -235,6 +235,12 @@ class Speisekarte_Plugin {
                 'nonce'    => wp_create_nonce('speisekarte_nonce')
             ]);
             wp_enqueue_media();
+            $fc = get_option('speisekarte_font_color', '#000000');
+            $fcd = get_option('speisekarte_font_color_dark', '');
+            if (!$fcd) $fcd = $fc;
+            $color_css = '.speisekarte-frontend,.speisekarte-admin{color:' . esc_attr($fc) . ' !important;}';
+            $color_css .= 'body.dark-mode .speisekarte-frontend,body.dark-mode .speisekarte-admin{color:' . esc_attr($fcd) . ' !important;}';
+            wp_add_inline_style('speisekarte-darkmode', $color_css);
             if (strpos($hook, 'speisekarte-design') !== false || strpos($hook, 'speisekarte-fonts') !== false) {
                 wp_enqueue_style('wp-color-picker');
                 wp_enqueue_script('wp-color-picker');
@@ -293,6 +299,12 @@ class Speisekarte_Plugin {
         if ($inline) {
             wp_add_inline_style('speisekarte-frontend', $inline);
         }
+        $fc = get_option('speisekarte_font_color', '#000000');
+        $fcd = get_option('speisekarte_font_color_dark', '');
+        if (!$fcd) $fcd = $fc;
+        $color_css = '.speisekarte-frontend,.speisekarte-admin{color:' . esc_attr($fc) . ' !important;}';
+        $color_css .= 'body.dark-mode .speisekarte-frontend,body.dark-mode .speisekarte-admin{color:' . esc_attr($fcd) . ' !important;}';
+        wp_add_inline_style('speisekarte-darkmode', $color_css);
         wp_enqueue_script('speisekarte-frontend', plugin_dir_url(__FILE__).'assets/frontend.js', ['jquery'], '1.0', true);
     }
 
