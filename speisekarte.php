@@ -204,7 +204,8 @@ class Speisekarte_Plugin {
     public function shortcode() {
         ob_start();
         include(plugin_dir_path(__FILE__).'templates/speisekarte-frontend.php');
-        return ob_get_clean();
+        $output = ob_get_clean();
+        return $output;
     }
 }
 
