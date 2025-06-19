@@ -169,6 +169,7 @@ class Speisekarte_Plugin {
         add_submenu_page('speisekarte', 'Import/Export', 'Import/Export', 'manage_options', 'speisekarte-import', [$this, 'import_export_page']);
         add_submenu_page('speisekarte', 'Inhaltsstoffe', 'Inhaltsstoffe', 'manage_options', 'speisekarte-inhaltsstoffe', [$this, 'inhaltsstoffe_page']);
         add_submenu_page('speisekarte', 'Design', 'Design', 'manage_options', 'speisekarte-design', [$this, 'design_page']);
+        add_submenu_page('speisekarte', 'Schrift', 'Schrift', 'manage_options', 'speisekarte-fonts', [$this, 'fonts_page']);
     }
 
     public function admin_assets($hook) {
@@ -180,7 +181,7 @@ class Speisekarte_Plugin {
                 'nonce'    => wp_create_nonce('speisekarte_nonce')
             ]);
             wp_enqueue_media();
-            if (strpos($hook, 'speisekarte-design') !== false) {
+            if (strpos($hook, 'speisekarte-design') !== false || strpos($hook, 'speisekarte-fonts') !== false) {
                 wp_enqueue_style('wp-color-picker');
                 wp_enqueue_script('wp-color-picker');
             }
@@ -230,6 +231,10 @@ class Speisekarte_Plugin {
 
     public function design_page() {
         include(plugin_dir_path(__FILE__).'admin/design.php');
+    }
+
+    public function fonts_page() {
+        include(plugin_dir_path(__FILE__).'admin/fonts.php');
     }
 
     public function handle_export_download() {
