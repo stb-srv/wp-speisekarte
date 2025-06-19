@@ -11,6 +11,7 @@ Dieses Plugin bietet eine einfach verwaltbare, schön dargestellte Speisekarte a
 - Import/Export der kompletten Speisekarte inklusive Inhaltsstoffe und Kategorien
 - Export der Daten als JSON-Datei mit Download-Historie
 - Individuelle Verwaltung der Inhaltsstoffe
+- Mehrfachlöschung (Bulk Delete) von Kategorien, Speisen und Inhaltsstoffen
 - Accordion-Darstellung im Frontend
 - Einstellbare Spaltenanzahl im Frontend
 - Einheitliche Höhe der Kategorie-Header
