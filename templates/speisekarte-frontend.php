@@ -45,7 +45,7 @@ foreach ($rows as $r) {
   <div class="speisekarte-grid">
 <?php foreach ($kats as $kat): ?>
     <div class="speisekarte-kategorie" data-kat="<?php echo $kat->id; ?>">
-      <div class="kategorie-header"><span class="toggle-icon">\u25B6</span><span class="kat-name"><?php echo esc_html($kat->name); ?></span></div>
+      <div class="kategorie-header"><span class="toggle-icon">&#9654;</span><span class="kat-name"><?php echo esc_html($kat->name); ?></span></div>
       <div class="kategorie-content">
 <?php
         $speisen = $wpdb->get_results($wpdb->prepare(
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded',function(){
     var icon=head.querySelector('.toggle-icon');
     var open=typeof show==='boolean'?show:content.style.display!=='block';
     content.style.display=open?'block':'none';
-    if(icon) icon.textContent=open?'\u25BC':'\u25B6';
+    if(icon) icon.textContent=open?'▼':'►';
   }
 
   document.querySelectorAll('.kategorie-header').forEach(function(head){
