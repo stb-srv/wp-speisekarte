@@ -28,3 +28,5 @@
 .speisekarte-item .bild img { border-radius:6px; max-width:80px; max-height:80px; }
 .speisekarte-item .preis { margin-left:10px; white-space:nowrap; }
 .speisekarte-item .inh { display:block; margin-top:2px; font-size:0.9em; font-style:italic; }
+.speisekarte-search { margin-bottom:1em; }
+.speisekarte-search input { width:100%; padding:0.5em; }
