@@ -1,5 +1,5 @@
 .speisekarte-accordion .speisekarte-content { display:none; padding:0.5em 1em; }
-.speisekarte-toggle { width:100%; text-align:left; font-size:1.2em; padding:0.7em; background:#f1f1f1; border:none; cursor:pointer; }
+.speisekarte-toggle { width:100%; text-align:left; font-size:1.2em; padding:0.7em; background:#f1f1f1; border:none; cursor:pointer; display:flex; align-items:center; }
 .speisekarte-toggle.active { background:#e1e1e1; }
 .speisekarte-kat { margin-bottom:0; border:1px solid #ddd; border-radius:6px; overflow:hidden; }
 .speisekarte-accordion { display:grid; grid-template-columns:repeat(var(--columns, 1), 1fr); gap:10px; }
