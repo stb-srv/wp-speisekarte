@@ -3,6 +3,19 @@ global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
 $table_inh = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
+$default_kat_id = speisekarte_get_default_kategorie_id();
+
+function speisekarte_delete_category_and_reassign($id) {
+    global $wpdb;
+    $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
+    $table_speise = $wpdb->prefix . 'speisekarte_speisen';
+    $default_id = speisekarte_get_default_kategorie_id();
+    if ($id == $default_id) {
+        return;
+    }
+    $wpdb->update($table_speise, ['kategorie_id' => $default_id], ['kategorie_id' => $id]);
+    $wpdb->delete($table_kat, ['id' => $id]);
+}
 $inhaltsstoff_codes = [];
 $rows = $wpdb->get_results("SELECT code, name FROM $table_inh ORDER BY code");
 foreach ($rows as $r) {
@@ -35,12 +48,12 @@ if (isset($_POST['kat_save'])) {
 }
 // Kategorie löschen
 if (isset($_GET['kat_del'])) {
-    $wpdb->delete($table_kat, ['id' => intval($_GET['kat_del'])]);
+    speisekarte_delete_category_and_reassign(intval($_GET['kat_del']));
 }
 // Mehrere Kategorien löschen
 if (isset($_POST['bulk_del_kats']) && !empty($_POST['cat_ids']) && check_admin_referer('speisekarte_bulk_delete')) {
     foreach ((array)$_POST['cat_ids'] as $id) {
-        $wpdb->delete($table_kat, ['id' => intval($id)]);
+        speisekarte_delete_category_and_reassign(intval($id));
     }
 }
 
@@ -144,11 +157,17 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
             <tbody>
             <?php foreach($kats as $k): ?>
                 <tr data-id="<?php echo $k->id; ?>" data-name="<?php echo esc_attr($k->name); ?>">
-                    <td><input type="checkbox" class="kat_cb" name="cat_ids[]" value="<?php echo $k->id; ?>"></td>
-                    <td><?php echo esc_html($k->name); ?></td>
                     <td>
-                        <a href="#" class="kat_edit">Bearbeiten</a> |
+                        <?php if($k->id != $default_kat_id): ?>
+                            <input type="checkbox" class="kat_cb" name="cat_ids[]" value="<?php echo $k->id; ?>">
+                        <?php endif; ?>
+                    </td>
+                    <td><?php echo esc_html($k->name); ?><?php if($k->id == $default_kat_id) echo ' (Standard)'; ?></td>
+                    <td>
+                        <a href="#" class="kat_edit">Bearbeiten</a>
+                        <?php if($k->id != $default_kat_id): ?> |
                         <a href="?page=speisekarte&kat_del=<?php echo $k->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

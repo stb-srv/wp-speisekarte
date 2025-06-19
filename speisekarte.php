@@ -9,6 +9,21 @@
 
 if (!defined('ABSPATH')) exit;
 
+if (!function_exists('speisekarte_get_default_kategorie_id')) {
+    function speisekarte_get_default_kategorie_id() {
+        global $wpdb;
+        $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
+        $name = 'Ohne Kategorie';
+        $id = $wpdb->get_var($wpdb->prepare("SELECT id FROM $table_kat WHERE name=%s", $name));
+        if (!$id) {
+            $max = $wpdb->get_var("SELECT MAX(sort) FROM $table_kat") ?? 0;
+            $wpdb->insert($table_kat, ['name' => $name, 'sort' => $max + 1]);
+            $id = $wpdb->insert_id;
+        }
+        return intval($id);
+    }
+}
+
 class Speisekarte_Plugin {
     public function __construct() {
         register_activation_hook(__FILE__, [$this, 'install']);
@@ -93,6 +108,9 @@ class Speisekarte_Plugin {
         add_option('speisekarte_item_font_color', '#000000');
         add_option('speisekarte_background_color', '#f1f1f1');
         add_option('speisekarte_active_color', '#e1e1e1');
+
+        // ensure default category exists on installation
+        speisekarte_get_default_kategorie_id();
     }
 
     public function maybe_upgrade() {
