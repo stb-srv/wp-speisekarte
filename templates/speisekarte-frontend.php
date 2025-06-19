@@ -1,4 +1,5 @@
 <?php
+global $wpdb;
 $table_kat = $wpdb->prefix . 'speisekarte_kategorien';
 $table_speise = $wpdb->prefix . 'speisekarte_speisen';
 $table_inh = $wpdb->prefix . 'speisekarte_inhaltsstoffe';
