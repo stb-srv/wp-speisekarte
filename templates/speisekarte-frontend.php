@@ -15,12 +15,21 @@ $rows = $wpdb->get_results("SELECT code, name FROM $table_inh ORDER BY code");
 foreach($rows as $r){
     $inh_map[$r->code] = $r->name;
 }
+$column_css = $columns <= 1 ? '1fr' : 'repeat('.$columns.', 1fr)';
 ?>
+<style>
+.speisekarte-wrapper{max-width:1200px;margin:0 auto;padding:1rem;}
+.speisekarte-search input{width:100%;padding:0.75rem;background:#f4f4f4;border:1px solid #ccc;border-radius:0.5rem;color:#000;font-size:16px;}
+.menu-grid{display:grid;gap:1rem;grid-template-columns:<?php echo $column_css; ?>;width:100%;}
+@media (max-width:600px){.menu-grid{grid-template-columns:1fr;}}
+.menu-item{background:#d9d9d9;color:#000;border-radius:0.5rem;padding:1rem;min-height:120px;overflow:visible;}
+.speisekarte-kat{overflow:visible;min-height:120px;}
+</style>
 <div class="speisekarte-wrapper">
     <div class="speisekarte-search">
         <input type="text" id="speisekarte_search" placeholder="Suche...">
     </div>
-    <div class="speisekarte-accordion" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?><?php if($tile_width) echo '--tile-width:'.$tile_width.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>" data-tile-width="<?php echo $tile_width; ?>">
+    <div class="speisekarte-accordion menu-grid" style="--columns: <?php echo $columns; ?>;<?php if($tile_height) echo '--tile-height:'.$tile_height.'px;'; ?><?php if($tile_width) echo '--tile-width:'.$tile_width.'px;'; ?>" data-tile-height="<?php echo $tile_height; ?>" data-tile-width="<?php echo $tile_width; ?>">
 <?php foreach($kats as $kat): ?>
     <div class="speisekarte-kat" data-kat="<?php echo $kat->id; ?>">
         <button class="speisekarte-toggle"><?php echo esc_html($kat->name); ?></button>
@@ -31,7 +40,7 @@ foreach($rows as $r){
                 $kat->id
             ));
             if($speisen): ?>
-            <div class="speisekarte-grid" style="grid-template-columns: repeat(<?php echo $columns; ?>, 1fr);">
+            <div class="speisekarte-grid menu-grid">
                 <?php foreach($speisen as $sp):
                     $inh_display = '';
                     if($sp->inhaltsstoffe){
@@ -44,7 +53,7 @@ foreach($rows as $r){
                         $inh_display = implode(',', $names);
                     }
                 ?>
-                    <div class="speisekarte-item"
+                    <div class="speisekarte-item menu-item"
                         data-nr="<?php echo esc_attr($sp->nr); ?>"
                         data-name="<?php echo esc_attr($sp->name); ?>"
                         data-beschreibung="<?php echo esc_attr($sp->beschreibung); ?>"
