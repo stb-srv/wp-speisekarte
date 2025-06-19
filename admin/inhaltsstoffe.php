@@ -17,6 +17,11 @@ if (isset($_POST['inh_save'])) {
 if (isset($_GET['inh_del'])) {
     $wpdb->delete($table_inh, ['id' => intval($_GET['inh_del'])]);
 }
+if (!empty($_POST['bulk_del_inh']) && !empty($_POST['inh_ids'])) {
+    foreach ((array)$_POST['inh_ids'] as $id) {
+        $wpdb->delete($table_inh, ['id' => intval($id)]);
+    }
+}
 
 $codes = $wpdb->get_results("SELECT * FROM $table_inh ORDER BY code");
 ?>
@@ -28,19 +33,28 @@ $codes = $wpdb->get_results("SELECT * FROM $table_inh ORDER BY code");
         <input type="text" name="name" placeholder="Name" required>
         <button class="button button-primary" name="inh_save">Speichern</button>
     </form>
-    <table class="widefat">
-        <thead><tr><th>Code</th><th>Name</th><th>Aktion</th></tr></thead>
-        <tbody>
-        <?php foreach($codes as $c): ?>
-            <tr data-id="<?php echo $c->id; ?>" data-code="<?php echo esc_attr($c->code); ?>" data-name="<?php echo esc_attr($c->name); ?>">
-                <td><?php echo esc_html($c->code); ?></td>
-                <td><?php echo esc_html($c->name); ?></td>
-                <td>
-                    <a href="#" class="inh_edit">Bearbeiten</a> |
-                    <a href="?page=speisekarte-inhaltsstoffe&inh_del=<?php echo $c->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <form method="post" id="inh_bulk_form">
+        <table class="widefat">
+            <thead>
+                <tr>
+                    <th style="width:30px;"><input type="checkbox" id="inh_all"></th>
+                    <th>Code</th><th>Name</th><th>Aktion</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($codes as $c): ?>
+                <tr data-id="<?php echo $c->id; ?>" data-code="<?php echo esc_attr($c->code); ?>" data-name="<?php echo esc_attr($c->name); ?>">
+                    <td><input type="checkbox" class="inh_cb" name="inh_ids[]" value="<?php echo $c->id; ?>"></td>
+                    <td><?php echo esc_html($c->code); ?></td>
+                    <td><?php echo esc_html($c->name); ?></td>
+                    <td>
+                        <a href="#" class="inh_edit">Bearbeiten</a> |
+                        <a href="?page=speisekarte-inhaltsstoffe&inh_del=<?php echo $c->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p><button class="button" name="bulk_del_inh" onclick="return confirm('Ausgewählte Inhaltsstoffe löschen?')">Ausgewählte löschen</button></p>
+    </form>
 </div>

@@ -141,4 +141,14 @@ jQuery(function($){
     $('#speisen_search').on('keyup change', applySpeisenFilter);
     applySpeisenFilter();
 
+    $('#kat_all').on('change', function(){
+        $('.kat_cb').prop('checked', $(this).prop('checked'));
+    });
+    $('#speisen_all').on('change', function(){
+        $('.speise_cb').prop('checked', $(this).prop('checked'));
+    });
+    $('#inh_all').on('change', function(){
+        $('.inh_cb').prop('checked', $(this).prop('checked'));
+    });
+
 });

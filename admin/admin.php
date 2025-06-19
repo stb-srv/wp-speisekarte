@@ -37,6 +37,12 @@ if (isset($_POST['kat_save'])) {
 if (isset($_GET['kat_del'])) {
     $wpdb->delete($table_kat, ['id' => intval($_GET['kat_del'])]);
 }
+// Mehrere Kategorien löschen
+if (!empty($_POST['bulk_del_kats']) && !empty($_POST['cat_ids'])) {
+    foreach ((array)$_POST['cat_ids'] as $id) {
+        $wpdb->delete($table_kat, ['id' => intval($id)]);
+    }
+}
 
 // Speise hinzufügen/bearbeiten
 if (isset($_POST['speise_save'])) {
@@ -62,6 +68,12 @@ if (isset($_POST['speise_save'])) {
 // Speise löschen
 if (isset($_GET['speise_del'])) {
     $wpdb->delete($table_speise, ['id' => intval($_GET['speise_del'])]);
+}
+// Mehrere Speisen löschen
+if (!empty($_POST['bulk_del_speisen']) && !empty($_POST['speise_ids'])) {
+    foreach ((array)$_POST['speise_ids'] as $id) {
+        $wpdb->delete($table_speise, ['id' => intval($id)]);
+    }
 }
 
 // Alle Kategorien laden
@@ -119,20 +131,31 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
         <input type="text" name="kat_name" placeholder="Neue Kategorie" required>
         <button class="button button-primary" name="kat_save">Speichern</button>
     </form>
-    <table class="widefat">
-        <thead><tr><th>Name</th><th>Aktion</th></tr></thead>
-        <tbody>
-        <?php foreach($kats as $k): ?>
-            <tr data-id="<?php echo $k->id; ?>" data-name="<?php echo esc_attr($k->name); ?>">
-                <td><?php echo esc_html($k->name); ?></td>
-                <td>
-                    <a href="#" class="kat_edit">Bearbeiten</a> |
-                    <a href="?page=speisekarte&kat_del=<?php echo $k->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <form method="post" id="kat_bulk_form">
+        <table class="widefat">
+            <thead>
+                <tr>
+                    <th style="width:30px;"><input type="checkbox" id="kat_all"></th>
+                    <th>Name</th>
+                    <th>Aktion</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach($kats as $k): ?>
+                <tr data-id="<?php echo $k->id; ?>" data-name="<?php echo esc_attr($k->name); ?>">
+                    <td><input type="checkbox" class="kat_cb" name="cat_ids[]" value="<?php echo $k->id; ?>"></td>
+                    <td><?php echo esc_html($k->name); ?></td>
+                    <td>
+                        <a href="#" class="kat_edit">Bearbeiten</a> |
+                        <a href="?page=speisekarte&kat_del=<?php echo $k->id; ?>" onclick="return confirm('Wirklich löschen?')">Löschen</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p><button class="button" name="bulk_del_kats" onclick="return confirm('Ausgewählte Kategorien löschen?')">Ausgewählte löschen</button></p>
+    </form>
+    <form method="post" id="speisen_bulk_form">
     <h3>Speisen-Liste</h3>
     <div class="speisen-filter">
         <select id="speisen_kat_filter">
@@ -142,6 +165,7 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
             <?php endforeach; ?>
         </select>
         <input type="text" id="speisen_search" placeholder="Suche...">
+        <label style="margin-left:10px;"><input type="checkbox" id="speisen_all"> Alle auswählen</label>
     </div>
     <?php foreach($kats as $k):
         $speisen = $wpdb->get_results($wpdb->prepare(
@@ -161,6 +185,7 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
                 data-inhaltsstoffe="<?php echo esc_attr($s->inhaltsstoffe); ?>"
                 data-preis="<?php echo esc_attr($s->preis); ?>"
                 data-bild="<?php echo esc_attr($s->bild_id); ?>">
+                <input type="checkbox" class="speise_cb" name="speise_ids[]" value="<?php echo $s->id; ?>"> 
                 <b><?php echo esc_html($s->nr); ?> <?php echo esc_html($s->name); ?> - <?php echo number_format($s->preis, 2, ',', '.'); ?> €</b>
                 <?php if($s->bild_id) { $url = wp_get_attachment_url($s->bild_id); echo '<img src="'.esc_url($url).'" style="height:32px;vertical-align:middle;">'; } ?>
                 <small><?php echo esc_html($s->beschreibung); ?></small>
@@ -171,4 +196,6 @@ $kats = $wpdb->get_results("SELECT * FROM $table_kat ORDER BY sort, name");
 </ul>
 </div>
     <?php endforeach; ?>
+    <p><button class="button" name="bulk_del_speisen" onclick="return confirm('Ausgewählte Speisen löschen?')">Ausgewählte löschen</button></p>
+    </form>
 </div>
