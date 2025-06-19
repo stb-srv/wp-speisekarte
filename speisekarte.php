@@ -280,8 +280,14 @@ class Speisekarte_Plugin {
         $active_d = get_option('speisekarte_active_color_dark', '#1e447c');
         if ($active_d) $dark_vars .= '--toggle-active-bg:' . esc_attr($active_d) . ';';
         $inline = '';
-        if ($vars) $inline .= ':root{' . $vars . '}';
-        if ($dark_vars) $inline .= '@media (prefers-color-scheme: dark){:root{' . $dark_vars . '}}';
+        if ($vars) {
+            $inline .= ':root{' . $vars . '}';
+        }
+        if ($dark_vars) {
+            $inline .= '@media (prefers-color-scheme: dark){:root{' . $dark_vars . '}}';
+            $inline .= 'body.is-dark-theme,';
+            $inline .= 'body.dark-mode{'. $dark_vars . '}';
+        }
         if ($inline) {
             wp_add_inline_style('speisekarte-frontend', $inline);
         }
