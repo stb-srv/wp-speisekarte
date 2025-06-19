@@ -85,6 +85,9 @@ class Speisekarte_Plugin {
         add_option('speisekarte_columns', 1);
         add_option('speisekarte_tile_height', 0);
         add_option('speisekarte_tile_width', 0);
+        add_option('speisekarte_font_family', '');
+        add_option('speisekarte_background_color', '#f1f1f1');
+        add_option('speisekarte_active_color', '#e1e1e1');
     }
 
     public function maybe_upgrade() {
@@ -96,12 +99,22 @@ class Speisekarte_Plugin {
         if (get_option('speisekarte_tile_width', null) === null) {
             add_option('speisekarte_tile_width', 0);
         }
+        if (get_option('speisekarte_font_family', null) === null) {
+            add_option('speisekarte_font_family', '');
+        }
+        if (get_option('speisekarte_background_color', null) === null) {
+            add_option('speisekarte_background_color', '#f1f1f1');
+        }
+        if (get_option('speisekarte_active_color', null) === null) {
+            add_option('speisekarte_active_color', '#e1e1e1');
+        }
     }
 
     public function admin_menu() {
         add_menu_page('Speisekarte', 'Speisekarte', 'manage_options', 'speisekarte', [$this, 'admin_page'], 'dashicons-food', 26);
         add_submenu_page('speisekarte', 'Import/Export', 'Import/Export', 'manage_options', 'speisekarte-import', [$this, 'import_export_page']);
         add_submenu_page('speisekarte', 'Inhaltsstoffe', 'Inhaltsstoffe', 'manage_options', 'speisekarte-inhaltsstoffe', [$this, 'inhaltsstoffe_page']);
+        add_submenu_page('speisekarte', 'Design', 'Design', 'manage_options', 'speisekarte-design', [$this, 'design_page']);
     }
 
     public function admin_assets($hook) {
@@ -113,11 +126,25 @@ class Speisekarte_Plugin {
                 'nonce'    => wp_create_nonce('speisekarte_nonce')
             ]);
             wp_enqueue_media();
+            if (strpos($hook, 'speisekarte-design') !== false) {
+                wp_enqueue_style('wp-color-picker');
+                wp_enqueue_script('wp-color-picker');
+            }
         }
     }
 
     public function frontend_assets() {
         wp_enqueue_style('speisekarte-frontend', plugin_dir_url(__FILE__).'assets/frontend.css');
+        $vars = '';
+        $font = trim(get_option('speisekarte_font_family', ''));
+        if ($font) $vars .= '--font-family:' . esc_attr($font) . ';';
+        $bg = get_option('speisekarte_background_color', '#f1f1f1');
+        if ($bg) $vars .= '--toggle-bg:' . esc_attr($bg) . ';';
+        $active = get_option('speisekarte_active_color', '#e1e1e1');
+        if ($active) $vars .= '--toggle-active-bg:' . esc_attr($active) . ';';
+        if ($vars) {
+            wp_add_inline_style('speisekarte-frontend', ':root{' . $vars . '}');
+        }
         wp_enqueue_script('speisekarte-frontend', plugin_dir_url(__FILE__).'assets/frontend.js', ['jquery'], '1.0', true);
     }
 
@@ -131,6 +158,10 @@ class Speisekarte_Plugin {
 
     public function inhaltsstoffe_page() {
         include(plugin_dir_path(__FILE__).'admin/inhaltsstoffe.php');
+    }
+
+    public function design_page() {
+        include(plugin_dir_path(__FILE__).'admin/design.php');
     }
 
     public function update_speisen_order() {

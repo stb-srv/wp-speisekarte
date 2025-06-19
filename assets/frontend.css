@@ -1,6 +1,7 @@
 .speisekarte-accordion .speisekarte-content { display:none; padding:0.5em 1em; }
-.speisekarte-toggle { width: var(--tile-width, 100%); text-align:left; font-size:1.2em; padding:0.7em; background:#f1f1f1; border:none; cursor:pointer; display:flex; align-items:center; min-height: var(--tile-height, auto); }
-.speisekarte-toggle.active { background:#e1e1e1; }
+.speisekarte-toggle { width: var(--tile-width, 100%); text-align:left; font-size:1.2em; padding:0.7em; background: var(--toggle-bg, #f1f1f1); border:none; cursor:pointer; display:flex; align-items:center; min-height: var(--tile-height, auto); font-family: var(--font-family, inherit); }
+.speisekarte-toggle.active { background: var(--toggle-active-bg, #e1e1e1); }
+.speisekarte-item { display:grid; grid-template-columns:40px 1fr auto; align-items:start; column-gap:10px; font-family: var(--font-family, inherit); }
 .speisekarte-kat { margin-bottom:0; border:1px solid #ddd; border-radius:6px; overflow:hidden; }
 .speisekarte-accordion {
     display: grid;
@@ -8,6 +9,5 @@
     gap: 10px;
 }
 .speisekarte-accordion .speisekarte-grid { display:grid; grid-template-columns:repeat(var(--columns,1), 1fr); gap:10px; }
-.speisekarte-item { display:grid; grid-template-columns:40px 1fr auto; align-items:start; column-gap:10px; }
 .speisekarte-item .nr { font-weight:bold; }
 .speisekarte-item .bild img { border-radius:6px; max-width:80px; max-height:80px; }
