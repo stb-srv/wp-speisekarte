@@ -8,7 +8,7 @@ $active_color = $options['active_color'] ?? '#e1e1e1';
 $font_color = $options['font_color'] ?? '#000000';
 $bg_color_dark = $options['bg_color_dark'] ?? '#1b3b6f';
 $active_color_dark = $options['active_color_dark'] ?? '#1e447c';
-$font_color_dark = $options['font_color_dark'] ?? '';
+$font_color_dark = $options['font_color_dark'] ?? '#dddddd'; // ensure fallback
 
 // --- Font Settings ---
 $font_family       = get_option('speisekarte_font_family', '');
@@ -40,7 +40,7 @@ if (isset($_POST['style_save'])) {
     $font_color = sanitize_hex_color($input['font_color'] ?? '') ?: '#000000';
     $bg_color_dark = sanitize_hex_color($input['bg_color_dark'] ?? '') ?: '#1b3b6f';
     $active_color_dark = sanitize_hex_color($input['active_color_dark'] ?? '') ?: '#1e447c';
-    $font_color_dark = sanitize_hex_color($input['font_color_dark'] ?? '') ?: '';
+    $font_color_dark = sanitize_hex_color($input['font_color_dark'] ?? '') ?: '#dddddd'; // keep default
 
     $font_family = sanitize_text_field($_POST['font_family']);
     $item_font_family = sanitize_text_field($_POST['item_font_family']);
