@@ -6,7 +6,7 @@ $active_color = $options['active_color'] ?? '#e1e1e1';
 $font_color = $options['font_color'] ?? '#000000';
 $bg_color_dark = $options['bg_color_dark'] ?? '#1b3b6f';
 $active_color_dark = $options['active_color_dark'] ?? '#1e447c';
-$font_color_dark = $options['font_color_dark'] ?? '';
+$font_color_dark = $options['font_color_dark'] ?? '#dddddd'; // ensure fallback color
 if (isset($_POST['design_save'])) {
     check_admin_referer('speisekarte_design_save');
     $input = $_POST['wp_speisekarte_settings'] ?? [];
@@ -15,7 +15,7 @@ if (isset($_POST['design_save'])) {
     $font_color = sanitize_hex_color($input['font_color'] ?? '') ?: '#000000';
     $bg_color_dark = sanitize_hex_color($input['bg_color_dark'] ?? '') ?: '#1b3b6f';
     $active_color_dark = sanitize_hex_color($input['active_color_dark'] ?? '') ?: '#1e447c';
-    $font_color_dark = sanitize_hex_color($input['font_color_dark'] ?? '') ?: '';
+    $font_color_dark = sanitize_hex_color($input['font_color_dark'] ?? '') ?: '#dddddd'; // keep default
 
     $options['bg_color'] = $bg_color;
     $options['active_color'] = $active_color;
