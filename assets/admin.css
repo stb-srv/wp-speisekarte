@@ -27,11 +27,9 @@ body.is-dark-theme .speisen-sortable li,
 body.dark-mode .speisen-sortable li {
     background:#2a2a2a;
     border-color:#444;
-    color:#ddd;
 }
 body.is-dark-theme .inh-tag,
 body.dark-mode .inh-tag {
     background:#444;
-    color:#fff;
 }
 

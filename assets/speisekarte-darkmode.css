@@ -4,7 +4,6 @@ body.dark-mode .speisekarte-frontend,
 body.is-dark .speisekarte-admin,
 body.is-dark .speisekarte-frontend {
   background: #222 !important;
-  color: #fff !important;
 }
 
 body.dark-mode .speisekarte-admin input:not(.color-picker),
@@ -16,7 +15,6 @@ body.is-dark .speisekarte-admin textarea,
 body.is-dark .speisekarte-admin select,
 body.is-dark .speisekarte-admin button {
   background: #333 !important;
-  color: #fff !important;
   border-color: #555 !important;
 }
 
@@ -25,14 +23,12 @@ body.is-dark .speisekarte-admin button {
   .speisekarte-admin,
   .speisekarte-frontend {
     background: #222 !important;
-    color: #fff !important;
   }
   .speisekarte-admin input:not(.color-picker),
   .speisekarte-admin textarea,
   .speisekarte-admin select,
   .speisekarte-admin button {
     background: #333 !important;
-    color: #fff !important;
     border-color: #555 !important;
   }
 }
