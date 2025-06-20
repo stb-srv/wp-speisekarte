@@ -31,25 +31,15 @@ $kategorie_farbe_dark = get_option('kategorie_farbe_dark', '#DD9933');
 $speisen_farbe_dark   = get_option('speisen_farbe_dark', '#FFFFFF');
 $preis_farbe_dark     = get_option('preis_farbe_dark', '#FFFFFF');
 
-if (isset($_POST['design_save'])) {
-    check_admin_referer('speisekarte_design_save');
+if (isset($_POST['style_save'])) {
+    check_admin_referer('speisekarte_style_save');
     $bg_color = sanitize_hex_color($_POST['bg_color']) ?: '#f1f1f1';
     $active_color = sanitize_hex_color($_POST['active_color']) ?: '#e1e1e1';
     $font_color = sanitize_hex_color($_POST['font_color']) ?: '#000000';
     $bg_color_dark = sanitize_hex_color($_POST['bg_color_dark']) ?: '#1b3b6f';
     $active_color_dark = sanitize_hex_color($_POST['active_color_dark']) ?: '#1e447c';
     $font_color_dark = sanitize_hex_color($_POST['font_color_dark']) ?: '';
-    update_option('speisekarte_background_color', $bg_color);
-    update_option('speisekarte_active_color', $active_color);
-    update_option('speisekarte_font_color', $font_color);
-    update_option('speisekarte_background_color_dark', $bg_color_dark);
-    update_option('speisekarte_active_color_dark', $active_color_dark);
-    update_option('speisekarte_font_color_dark', $font_color_dark);
-    echo '<div class="updated notice"><p>Einstellungen gespeichert.</p></div>';
-}
 
-if (isset($_POST['fonts_save'])) {
-    check_admin_referer('speisekarte_fonts_save');
     $font_family = sanitize_text_field($_POST['font_family']);
     $item_font_family = sanitize_text_field($_POST['item_font_family']);
     $item_font_size = sanitize_text_field($_POST['item_font_size']);
@@ -61,6 +51,7 @@ if (isset($_POST['fonts_save'])) {
     $font_beschreibung = sanitize_text_field($_POST['font_beschreibung']);
     $font_inhalt_label = sanitize_text_field($_POST['font_inhalt_label']);
     $font_inhalt = sanitize_text_field($_POST['font_inhalt']);
+
     $zusatz_farbe = sanitize_hex_color($_POST['zusatz_farbe']) ?: '#992766';
     $kategorie_farbe = sanitize_hex_color($_POST['kategorie_farbe']) ?: '#000000';
     $speisen_farbe = sanitize_hex_color($_POST['speisen_farbe']) ?: '#000000';
@@ -69,6 +60,13 @@ if (isset($_POST['fonts_save'])) {
     $kategorie_farbe_dark = sanitize_hex_color($_POST['kategorie_farbe_dark']) ?: '#DD9933';
     $speisen_farbe_dark = sanitize_hex_color($_POST['speisen_farbe_dark']) ?: '#FFFFFF';
     $preis_farbe_dark = sanitize_hex_color($_POST['preis_farbe_dark']) ?: '#FFFFFF';
+
+    update_option('speisekarte_background_color', $bg_color);
+    update_option('speisekarte_active_color', $active_color);
+    update_option('speisekarte_font_color', $font_color);
+    update_option('speisekarte_background_color_dark', $bg_color_dark);
+    update_option('speisekarte_active_color_dark', $active_color_dark);
+    update_option('speisekarte_font_color_dark', $font_color_dark);
 
     update_option('speisekarte_font_family', $font_family);
     update_option('speisekarte_item_font_family', $item_font_family);
@@ -81,6 +79,7 @@ if (isset($_POST['fonts_save'])) {
     update_option('speisekarte_font_beschreibung', $font_beschreibung);
     update_option('speisekarte_font_inhalt_label', $font_inhalt_label);
     update_option('speisekarte_font_inhalt', $font_inhalt);
+
     update_option('zusatz_farbe', $zusatz_farbe);
     update_option('kategorie_farbe', $kategorie_farbe);
     update_option('speisen_farbe', $speisen_farbe);
@@ -89,6 +88,7 @@ if (isset($_POST['fonts_save'])) {
     update_option('kategorie_farbe_dark', $kategorie_farbe_dark);
     update_option('speisen_farbe_dark', $speisen_farbe_dark);
     update_option('preis_farbe_dark', $preis_farbe_dark);
+
     echo '<div class="updated notice"><p>Einstellungen gespeichert.</p></div>';
 }
 
@@ -104,51 +104,9 @@ $fonts = [
 <div class="wrap speisekarte-admin">
     <h1>Design &amp; Schrift Einstellungen</h1>
 
-    <h2>Design</h2>
     <form method="post">
-        <?php wp_nonce_field('speisekarte_design_save'); ?>
-        <fieldset style="margin-top:1em;padding:1em;border:1px solid #ccc;">
-            <legend><strong>White Mode</strong></legend>
-            <table class="form-table" role="presentation">
-            <tr>
-                <th scope="row"><label for="bg_color">Kachel-Hintergrund</label></th>
-                <td><input type="text" id="bg_color" name="bg_color" value="<?php echo esc_attr($bg_color); ?>" class="color-picker" data-default-color="#f1f1f1"></td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="active_color">Aktive Kachel</label></th>
-                <td><input type="text" id="active_color" name="active_color" value="<?php echo esc_attr($active_color); ?>" class="color-picker" data-default-color="#e1e1e1"></td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="font_color">Schriftfarbe</label></th>
-                <td><input type="text" id="font_color" name="font_color" value="<?php echo esc_attr($font_color); ?>" class="color-picker" data-default-color="#000000"></td>
-            </tr>
-            </table>
-        </fieldset>
-        <fieldset style="margin-top:1em;padding:1em;border:1px solid #ccc;">
-            <legend><strong>Dark Mode</strong></legend>
-            <table class="form-table" role="presentation">
-            <tr>
-                <th scope="row"><label for="bg_color_dark">Kachel-Hintergrund</label></th>
-                <td><input type="text" id="bg_color_dark" name="bg_color_dark" value="<?php echo esc_attr($bg_color_dark); ?>" class="color-picker" data-default-color="#1b3b6f"></td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="active_color_dark">Aktive Kachel</label></th>
-                <td><input type="text" id="active_color_dark" name="active_color_dark" value="<?php echo esc_attr($active_color_dark); ?>" class="color-picker" data-default-color="#1e447c"></td>
-            </tr>
-            <tr>
-                <th scope="row"><label for="font_color_dark">Schriftfarbe (Dark Mode)</label></th>
-                <td><input type="text" id="font_color_dark" name="font_color_dark" value="<?php echo esc_attr($font_color_dark); ?>" class="color-picker" data-default-color="#dddddd"></td>
-            </tr>
-            </table>
-        </fieldset>
-        <p class="submit">
-            <button class="button button-primary" name="design_save">Speichern</button>
-        </p>
-    </form>
-
-    <h2>Schrift</h2>
-    <form method="post">
-        <?php wp_nonce_field('speisekarte_fonts_save'); ?>
+        <?php wp_nonce_field('speisekarte_style_save'); ?>
+        <h2>Schriftarten</h2>
         <h3>Allgemein</h3>
         <table class="form-table" role="presentation">
             <tr>
@@ -248,23 +206,36 @@ $fonts = [
             </tr>
         </table>
 
+        <h2>Farben</h2>
         <fieldset style="margin-top:1em;padding:1em;border:1px solid #ccc;">
             <legend><strong>White Mode Farben</strong></legend>
             <table class="form-table" role="presentation">
                 <tr>
-                    <th scope="row"><label for="zusatz_farbe">Zusatzinformationen</label></th>
+                    <th scope="row"><label for="bg_color">Kachel-Hintergrundfarbe</label></th>
+                    <td><input type="text" id="bg_color" name="bg_color" value="<?php echo esc_attr($bg_color); ?>" class="color-picker" data-default-color="#f1f1f1"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="active_color">Aktive Kategorie-Kachel</label></th>
+                    <td><input type="text" id="active_color" name="active_color" value="<?php echo esc_attr($active_color); ?>" class="color-picker" data-default-color="#e1e1e1"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="font_color">Allgemeine Schriftfarbe</label></th>
+                    <td><input type="text" id="font_color" name="font_color" value="<?php echo esc_attr($font_color); ?>" class="color-picker" data-default-color="#000000"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="zusatz_farbe">Farbe Zusatzinformationen</label></th>
                     <td><input type="text" id="zusatz_farbe" name="zusatz_farbe" value="<?php echo esc_attr($zusatz_farbe); ?>" class="color-picker" data-default-color="#992766"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="kategorie_farbe">Kategorie</label></th>
+                    <th scope="row"><label for="kategorie_farbe">Farbe Kategoriebezeichnungen</label></th>
                     <td><input type="text" id="kategorie_farbe" name="kategorie_farbe" value="<?php echo esc_attr($kategorie_farbe); ?>" class="color-picker" data-default-color="#000000"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="speisen_farbe">Speisen</label></th>
+                    <th scope="row"><label for="speisen_farbe">Farbe Speisennamen</label></th>
                     <td><input type="text" id="speisen_farbe" name="speisen_farbe" value="<?php echo esc_attr($speisen_farbe); ?>" class="color-picker" data-default-color="#000000"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="preis_farbe">Preisfarbe</label></th>
+                    <th scope="row"><label for="preis_farbe">Farbe Preisangaben</label></th>
                     <td><input type="text" id="preis_farbe" name="preis_farbe" value="<?php echo esc_attr($preis_farbe); ?>" class="color-picker" data-default-color="#000000"></td>
                 </tr>
             </table>
@@ -274,25 +245,37 @@ $fonts = [
             <legend><strong>Dark Mode Farben</strong></legend>
             <table class="form-table" role="presentation">
                 <tr>
-                    <th scope="row"><label for="zusatz_farbe_dark">Zusatzinformationen (Dark Mode)</label></th>
+                    <th scope="row"><label for="bg_color_dark">Kachel-Hintergrundfarbe (Dark)</label></th>
+                    <td><input type="text" id="bg_color_dark" name="bg_color_dark" value="<?php echo esc_attr($bg_color_dark); ?>" class="color-picker" data-default-color="#1b3b6f"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="active_color_dark">Aktive Kategorie-Kachel (Dark)</label></th>
+                    <td><input type="text" id="active_color_dark" name="active_color_dark" value="<?php echo esc_attr($active_color_dark); ?>" class="color-picker" data-default-color="#1e447c"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="font_color_dark">Allgemeine Schriftfarbe (Dark)</label></th>
+                    <td><input type="text" id="font_color_dark" name="font_color_dark" value="<?php echo esc_attr($font_color_dark); ?>" class="color-picker" data-default-color="#dddddd"></td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="zusatz_farbe_dark">Farbe Zusatzinformationen (Dark)</label></th>
                     <td><input type="text" id="zusatz_farbe_dark" name="zusatz_farbe_dark" value="<?php echo esc_attr($zusatz_farbe_dark); ?>" class="color-picker" data-default-color="#DD9933"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="kategorie_farbe_dark">Kategorie (Dark Mode)</label></th>
+                    <th scope="row"><label for="kategorie_farbe_dark">Farbe Kategoriebezeichnungen (Dark)</label></th>
                     <td><input type="text" id="kategorie_farbe_dark" name="kategorie_farbe_dark" value="<?php echo esc_attr($kategorie_farbe_dark); ?>" class="color-picker" data-default-color="#DD9933"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="speisen_farbe_dark">Speisen (Dark Mode)</label></th>
+                    <th scope="row"><label for="speisen_farbe_dark">Farbe Speisennamen (Dark)</label></th>
                     <td><input type="text" id="speisen_farbe_dark" name="speisen_farbe_dark" value="<?php echo esc_attr($speisen_farbe_dark); ?>" class="color-picker" data-default-color="#FFFFFF"></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="preis_farbe_dark">Preisfarbe (Dark Mode)</label></th>
+                    <th scope="row"><label for="preis_farbe_dark">Farbe Preisangaben (Dark)</label></th>
                     <td><input type="text" id="preis_farbe_dark" name="preis_farbe_dark" value="<?php echo esc_attr($preis_farbe_dark); ?>" class="color-picker" data-default-color="#FFFFFF"></td>
                 </tr>
             </table>
         </fieldset>
         <p class="submit">
-            <button class="button button-primary" name="fonts_save">Speichern</button>
+            <button class="button button-primary" name="style_save">Speichern</button>
         </p>
     </form>
 </div>
