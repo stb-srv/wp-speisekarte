@@ -118,6 +118,12 @@ class Speisekarte_Plugin {
         add_option('speisekarte_item_font_size', '');
         add_option('speisekarte_item_font_weight', '');
         add_option('speisekarte_item_font_style', '');
+        add_option('speisekarte_font_kategorie', '');
+        add_option('speisekarte_font_speise', '');
+        add_option('speisekarte_font_preis', '');
+        add_option('speisekarte_font_beschreibung', '');
+        add_option('speisekarte_font_inhalt_label', '');
+        add_option('speisekarte_font_inhalt', '');
         add_option('zusatz_farbe', '#992766');
         add_option('kategorie_farbe', '#000000');
         add_option('speisen_farbe', '#000000');
@@ -185,6 +191,24 @@ class Speisekarte_Plugin {
         if (get_option('speisekarte_item_font_style', null) === null) {
             add_option('speisekarte_item_font_style', '');
         }
+        if (get_option('speisekarte_font_kategorie', null) === null) {
+            add_option('speisekarte_font_kategorie', '');
+        }
+        if (get_option('speisekarte_font_speise', null) === null) {
+            add_option('speisekarte_font_speise', '');
+        }
+        if (get_option('speisekarte_font_preis', null) === null) {
+            add_option('speisekarte_font_preis', '');
+        }
+        if (get_option('speisekarte_font_beschreibung', null) === null) {
+            add_option('speisekarte_font_beschreibung', '');
+        }
+        if (get_option('speisekarte_font_inhalt_label', null) === null) {
+            add_option('speisekarte_font_inhalt_label', '');
+        }
+        if (get_option('speisekarte_font_inhalt', null) === null) {
+            add_option('speisekarte_font_inhalt', '');
+        }
         if (get_option('zusatz_farbe', null) === null) {
             add_option('zusatz_farbe', '#992766');
         }
@@ -221,8 +245,7 @@ class Speisekarte_Plugin {
         add_menu_page('Speisekarte', 'Speisekarte', 'manage_options', 'speisekarte', [$this, 'admin_page'], 'dashicons-food', 26);
         add_submenu_page('speisekarte', 'Import/Export', 'Import/Export', 'manage_options', 'speisekarte-import', [$this, 'import_export_page']);
         add_submenu_page('speisekarte', 'Inhaltsstoffe', 'Inhaltsstoffe', 'manage_options', 'speisekarte-inhaltsstoffe', [$this, 'inhaltsstoffe_page']);
-        add_submenu_page('speisekarte', 'Design', 'Design', 'manage_options', 'speisekarte-design', [$this, 'design_page']);
-        add_submenu_page('speisekarte', 'Schrift', 'Schrift', 'manage_options', 'speisekarte-fonts', [$this, 'fonts_page']);
+        add_submenu_page('speisekarte', 'Design & Schrift', 'Design & Schrift', 'manage_options', 'speisekarte-style', [$this, 'style_page']);
     }
 
     public function admin_assets($hook) {
@@ -241,7 +264,7 @@ class Speisekarte_Plugin {
             $color_css = '.speisekarte-frontend,.speisekarte-admin{color:' . esc_attr($fc) . ' !important;}';
             $color_css .= 'body.dark-mode .speisekarte-frontend,body.dark-mode .speisekarte-admin{color:' . esc_attr($fcd) . ' !important;}';
             wp_add_inline_style('speisekarte-darkmode', $color_css);
-            if (strpos($hook, 'speisekarte-design') !== false || strpos($hook, 'speisekarte-fonts') !== false) {
+            if (strpos($hook, 'speisekarte-style') !== false) {
                 wp_enqueue_style('wp-color-picker');
                 wp_enqueue_script('wp-color-picker');
             }
@@ -270,6 +293,18 @@ class Speisekarte_Plugin {
         if ($item_font_weight) $vars .= '--item-font-weight:' . esc_attr($item_font_weight) . ';';
         $item_font_style = trim(get_option('speisekarte_item_font_style', ''));
         if ($item_font_style) $vars .= '--item-font-style:' . esc_attr($item_font_style) . ';';
+        $kategorie_font = trim(get_option('speisekarte_font_kategorie', ''));
+        if ($kategorie_font) $vars .= '--font-kategorie:' . esc_attr($kategorie_font) . ';';
+        $speise_font = trim(get_option('speisekarte_font_speise', ''));
+        if ($speise_font) $vars .= '--font-speise:' . esc_attr($speise_font) . ';';
+        $preis_font = trim(get_option('speisekarte_font_preis', ''));
+        if ($preis_font) $vars .= '--font-preis:' . esc_attr($preis_font) . ';';
+        $besch_font = trim(get_option('speisekarte_font_beschreibung', ''));
+        if ($besch_font) $vars .= '--font-beschreibung:' . esc_attr($besch_font) . ';';
+        $inh_label_font = trim(get_option('speisekarte_font_inhalt_label', ''));
+        if ($inh_label_font) $vars .= '--font-inhalt-label:' . esc_attr($inh_label_font) . ';';
+        $inh_font = trim(get_option('speisekarte_font_inhalt', ''));
+        if ($inh_font) $vars .= '--font-inhalt:' . esc_attr($inh_font) . ';';
         $bg = get_option('speisekarte_background_color', '#f1f1f1');
         if ($bg) $vars .= '--toggle-bg:' . esc_attr($bg) . ';';
         $active = get_option('speisekarte_active_color', '#e1e1e1');
@@ -328,12 +363,18 @@ class Speisekarte_Plugin {
         include(plugin_dir_path(__FILE__).'admin/fonts.php');
     }
 
+    public function style_page() {
+        include(plugin_dir_path(__FILE__).'admin/style.php');
+    }
+
     public function register_font_settings() {
         $opts = [
             'zusatz_farbe', 'kategorie_farbe', 'speisen_farbe', 'preis_farbe',
             'zusatz_farbe_dark', 'kategorie_farbe_dark', 'speisen_farbe_dark', 'preis_farbe_dark',
             'speisekarte_font_family', 'speisekarte_item_font_family', 'speisekarte_item_font_size',
-            'speisekarte_item_font_weight', 'speisekarte_item_font_style'
+            'speisekarte_item_font_weight', 'speisekarte_item_font_style',
+            'speisekarte_font_kategorie', 'speisekarte_font_speise', 'speisekarte_font_preis',
+            'speisekarte_font_beschreibung', 'speisekarte_font_inhalt_label', 'speisekarte_font_inhalt'
         ];
         foreach ($opts as $opt) {
             register_setting('speisekarte_fonts', $opt);

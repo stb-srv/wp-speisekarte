@@ -68,21 +68,21 @@
     font-size: var(--item-font-size, 1em);
     font-weight: var(--item-font-weight, bold);
     font-style: var(--item-font-style, normal);
-    font-family: var(--item-font-family, var(--font-family, inherit));
+    font-family: var(--font-speise, var(--item-font-family, var(--font-family, inherit)));
 }
 .speisekarte-preis {
     font-size: var(--item-font-size, 0.98em);
     font-style: var(--item-font-style, italic);
     font-weight: var(--item-font-weight, bold);
     float: right;
-    font-family: var(--item-font-family, var(--font-family, inherit));
+    font-family: var(--font-preis, var(--item-font-family, var(--font-family, inherit)));
 }
 .speisekarte-beschreibung {
     font-size: var(--item-font-size, 0.96em);
     margin-left: 0.2em;
     font-weight: var(--item-font-weight, normal);
     font-style: var(--item-font-style, normal);
-    font-family: var(--item-font-family, var(--font-family, inherit));
+    font-family: var(--font-beschreibung, var(--item-font-family, var(--font-family, inherit)));
 }
 .speisekarte-inhalt {
     font-size: var(--item-font-size, 0.93em);
@@ -90,7 +90,7 @@
     font-style: var(--item-font-style, italic);
     margin-left: 1.5em;
     font-weight: var(--item-font-weight, normal);
-    font-family: var(--item-font-family, var(--font-family, inherit));
+    font-family: var(--font-inhalt, var(--item-font-family, var(--font-family, inherit)));
 }
 .speisekarte-inhalt-label {
     font-size: var(--item-font-size, 0.93em);
@@ -98,7 +98,7 @@
     color: #888;
     margin-right: 0.2em;
     font-style: var(--item-font-style, normal);
-    font-family: var(--item-font-family, var(--font-family, inherit));
+    font-family: var(--font-inhalt-label, var(--item-font-family, var(--font-family, inherit)));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -108,6 +108,7 @@
     .kategorie-header {
         background: var(--toggle-bg, #1b3b6f);
         color: var(--kategorie-dunkel, #ffd700);
+        font-family: var(--font-kategorie, var(--font-family, inherit));
     }
     .kategorie-header.open {
         background: var(--toggle-active-bg, #1e447c);

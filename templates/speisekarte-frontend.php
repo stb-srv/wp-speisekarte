@@ -31,17 +31,17 @@ foreach ($rows as $r) {
 .speisekarte-grid{display:grid;grid-template-columns:repeat(<?php echo $columns; ?>,1fr);gap:2rem;}
 @media(max-width:600px){.speisekarte-grid{grid-template-columns:1fr;}}
 .speisekarte-kategorie{border:1px solid #ddd;border-radius:0.5rem;padding:1rem;background:var(--toggle-bg,#f1f1f1);}
-.kategorie-header{padding:0.75rem;background:var(--toggle-bg,#f1f1f1);color:var(--kategorie-weiss,#333);cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;}
+.kategorie-header{padding:0.75rem;background:var(--toggle-bg,#f1f1f1);color:var(--kategorie-weiss,#333);cursor:pointer;font-weight:normal;font-size:1rem;display:flex;align-items:center;font-family:var(--font-kategorie,var(--font-family,inherit));}
 .kategorie-header.open{background:var(--toggle-active-bg,#e1e1e1);}
 .kategorie-header .toggle-icon{margin-right:0.5rem;font-size:1.1rem;font-weight:bold;}
 .kategorie-content{display:none;padding:1rem;}
 .speisekarte-liste{font-size:0.98em;padding-left:1.1em;}
 .speisekarte-liste li{margin-bottom:0.5em;line-height:1.3;}
-.speisekarte-nummer,.speisekarte-titel{font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,bold);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));}
-.speisekarte-preis{font-size:var(--item-font-size,0.98em);font-style:var(--item-font-style,italic);font-weight:var(--item-font-weight,bold);float:right;font-family:var(--item-font-family,var(--font-family,inherit));color:var(--preis-weiss,var(--speisen-weiss,inherit));}
-.speisekarte-beschreibung{font-size:var(--item-font-size,0.96em);margin-left:0.2em;font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));}
-.speisekarte-inhalt{font-size:var(--item-font-size,0.93em);color:var(--zusatz-weiss,#888);font-style:var(--item-font-style,italic);margin-left:1.5em;font-weight:var(--item-font-weight,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
-.speisekarte-inhalt-label{font-size:var(--item-font-size,0.93em);font-weight:var(--item-font-weight,bold);color:var(--zusatz-weiss,#888);margin-right:0.2em;font-style:var(--item-font-style,normal);font-family:var(--item-font-family,var(--font-family,inherit));}
+.speisekarte-nummer,.speisekarte-titel{font-size:var(--item-font-size,1em);font-weight:var(--item-font-weight,bold);font-style:var(--item-font-style,normal);font-family:var(--font-speise,var(--item-font-family,var(--font-family,inherit)));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));}
+.speisekarte-preis{font-size:var(--item-font-size,0.98em);font-style:var(--item-font-style,italic);font-weight:var(--item-font-weight,bold);float:right;font-family:var(--font-preis,var(--item-font-family,var(--font-family,inherit)));color:var(--preis-weiss,var(--speisen-weiss,inherit));}
+.speisekarte-beschreibung{font-size:var(--item-font-size,0.96em);margin-left:0.2em;font-weight:var(--item-font-weight,normal);font-style:var(--item-font-style,normal);font-family:var(--font-beschreibung,var(--item-font-family,var(--font-family,inherit)));color:var(--speisen-weiss,var(--zusatz-weiss,inherit));}
+.speisekarte-inhalt{font-size:var(--item-font-size,0.93em);color:var(--zusatz-weiss,#888);font-style:var(--item-font-style,italic);margin-left:1.5em;font-weight:var(--item-font-weight,normal);font-family:var(--font-inhalt,var(--item-font-family,var(--font-family,inherit)));}
+.speisekarte-inhalt-label{font-size:var(--item-font-size,0.93em);font-weight:var(--item-font-weight,bold);color:var(--zusatz-weiss,#888);margin-right:0.2em;font-style:var(--item-font-style,normal);font-family:var(--font-inhalt-label,var(--item-font-family,var(--font-family,inherit)));}
 @media (prefers-color-scheme: dark){
   .speisekarte-kategorie{background:var(--toggle-bg,#1b3b6f);}
   .kategorie-header{background:var(--toggle-bg,#1b3b6f);color:var(--kategorie-dunkel,#ffd700);}
